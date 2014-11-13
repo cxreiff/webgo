@@ -1,0 +1,157 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<html lang="en-US">
+		<title>Go</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="scripts.js"></script>
+	</head>
+
+	<body>
+		<div id="container">
+
+			<div>
+				<h1>GO</h1>
+			</div>
+
+			<div style="float: right; margin-right: 10%; margin-top: 0%;">
+				<h2><p>NO</p><p>RULES</p><p>YET</p> </h2>
+			</div>
+
+			<div style="padding-top:25px">
+				<h2>Turn: </h2><br><div class="marker black"></div>
+			</div>
+
+			<div class="centered board"> <!-- TRY USING A TABLE OF DIVs INSTEAD OF FLOAT -->
+				<div id="t1" class="topleft tile"></div>
+				<div id="t2" class="top tile"></div>
+				<div id="t3" class="top tile"></div>
+				<div id="t4" class="top tile"></div>
+				<div id="t5" class="top tile"></div>
+				<div id="t6" class="top tile"></div>
+				<div id="t7" class="topright tile"></div>
+
+				<div id="t8" class="left tile" style="clear:left"></div>
+				<div id="t9" class="mid tile"></div>
+				<div id="t10" class="mid tile"></div>
+				<div id="t11" class="mid tile"></div>
+				<div id="t12" class="mid tile"></div>
+				<div id="t13" class="mid tile"></div>
+				<div id="t14" class="right tile"></div>
+
+				<div id="t15" class="left tile" style="clear:left"></div>
+				<div id="t16" class="mid tile"></div>
+				<div id="t17" class="point tile"></div>
+				<div id="t18" class="mid tile"></div>
+				<div id="t19" class="point tile"></div>
+				<div id="t20" class="mid tile"></div>
+				<div id="t21" class="right tile"></div>
+
+				<div id="t22" class="left tile" style="clear:left"></div>
+				<div id="t23" class="mid tile"></div>
+				<div id="t24" class="mid tile"></div>
+				<div id="t25" class="mid tile"></div>
+				<div id="t26" class="mid tile"></div>
+				<div id="t27" class="mid tile"></div>
+				<div id="t28" class="right tile"></div>
+
+				<div id="t29" class="left tile" style="clear:left"></div>
+				<div id="t30" class="mid tile"></div>
+				<div id="t31" class="point tile"></div>
+				<div id="t32" class="mid tile"></div>
+				<div id="t33" class="point tile"></div>
+				<div id="t34" class="mid tile"></div>
+				<div id="t35" class="right tile"></div>
+
+				<div id="t36" class="left tile" style="clear:left"></div>
+				<div id="t37" class="mid tile"></div>
+				<div id="t38" class="mid tile"></div>
+				<div id="t39" class="mid tile"></div>
+				<div id="t40" class="mid tile"></div>
+				<div id="t41" class="mid tile"></div>
+				<div id="t42" class="right tile"></div>
+
+				<div id="t43" class="bottomleft tile" style="clear:left"></div>
+				<div id="t44" class="bottom tile"></div>
+				<div id="t45" class="bottom tile"></div>
+				<div id="t46" class="bottom tile"></div>
+				<div id="t47" class="bottom tile"></div>
+				<div id="t48" class="bottom tile"></div>
+				<div id="t49" class="bottomright tile"></div>
+			</div>
+
+			<div id="footer">
+				<h3>Jax Reiff - COSC 331</h3>
+			</div>
+
+		</div>
+	</body>
+</html>
+
+<!-- <table>
+				<tr>
+					<td><div id="x1y1" class="topleft tile"></div></td>
+					<td><div id="x1y2" class="top tile"></div></td>
+					<td><div id="x1y3" class="top tile"></div></td>
+					<td><div id="x1y4" class="top tile"></div></td>
+					<td><div id="x1y5" class="top tile"></div></td>
+					<td><div id="x1y6" class="top tile"></div></td>
+					<td><div id="x1y7" class="topright tile"></div></td>
+				</tr>
+				<tr>
+					<td><div id="x2y1" class="left tile"></div></td>
+					<td><div id="x2y2" class="mid tile"></div></td>
+					<td><div id="x2y3" class="mid tile"></div></td>
+					<td><div id="x2y4" class="mid tile"></div></td>
+					<td><div id="x2y5" class="mid tile"></div></td>
+					<td><div id="x2y6" class="mid tile"></div></td>
+					<td><div id="x2y7" class="right tile"></div></td>
+				</tr>
+				<tr>
+					<td><div id="x3y1" class="left tile"></div></td>
+					<td><div id="x3y2" class="mid tile"></div></td>
+					<td><div id="x3y3" class="point tile"></div></td>
+					<td><div id="x3y4" class="mid tile"></div></td>
+					<td><div id="x3y5" class="point tile"></div></td>
+					<td><div id="x3y6" class="mid tile"></div></td>
+					<td><div id="x3y7" class="right tile"></div></div></td>
+				</tr>
+				<tr>
+					<td> <div id="x4y1" class="left tile"></div></td>
+					<td> <div id="x4y2" class="mid tile"></div></td>
+					<td> <div id="x4y3" class="mid tile"></div></td>
+					<td> <div id="x4y4" class="mid tile"></div></td>
+					<td> <div id="x4y5" class="mid tile"></div></td>
+					<td> <div id="x4y6" class="mid tile"></div></td>
+					<td> <div id="x4y7" class="right tile"></div></td>
+				</tr>
+				<tr>
+					<td> <div id="x5y1" class="left tile"></div></td>
+					<td> <div id="x5y2" class="mid tile"></div></td>
+					<td> <div id="x5y3" class="point tile"></div></td>
+					<td> <div id="x5y4" class="mid tile"></div></td>
+					<td> <div id="x5y5" class="point tile"></div></td>
+					<td> <div id="x5y6" class="mid tile"></div></td>
+					<td> <div id="x5y7" class="right tile"></div></td>
+				</tr>
+				<tr>
+					<td> <div id="x6y1" class="left tile"></div></td>
+					<td> <div id="x6y2" class="mid tile"></div></td>
+					<td> <div id="x6y3" class="mid tile"></div></td>
+					<td> <div id="x6y4" class="mid tile"></div></td>
+					<td> <div id="x6y5" class="mid tile"></div></td>
+					<td> <div id="x6y6" class="mid tile"></div></td>
+					<td> <div id="x6y7" class="right tile"></div></td>
+				</tr>
+				<tr>
+					<td> <div id="x7y1" class="bottomleft tile"></div></td>
+					<td> <div id="x7y2" class="bottom tile"></div></td>
+					<td> <div id="x7y3" class="bottom tile"></div></td>
+					<td> <div id="x7y4" class="bottom tile"></div></td>
+					<td> <div id="x7y5" class="bottom tile"></div></td>
+					<td> <div id="x7y6" class="bottom tile"></div></td>
+					<td> <div id="x7y7" class="bottomright tile"></div></td>
+				</tr>
+			</table> -->
