@@ -12,7 +12,7 @@ $(document).ready(function f() {
 
 	$("div.tile").click(function () {
 
-		if ((!($(this).hasClass("black"))&&(!($(this).hasClass("white")))))
+		if ((!($(this).hasClass("black"))&&(!($(this).hasClass("white")))))	//Turn Switching & Stone placement.
 		{
 			if (f.turn)
 			{
@@ -37,7 +37,7 @@ $(document).ready(function f() {
 		var blackcheck = $(".tile.black");
 		var whitecheck = $(".tile.white");
 
-		for(i = 0; i < blackcheck.length; i++) {
+		for(i = 0; i < blackcheck.length; i++) {	//Capture of Black Pieces
 
 			var $check = $("#"+blackcheck[i].id);
 
@@ -52,7 +52,7 @@ $(document).ready(function f() {
 				$check.removeClass("black");
 			}
 		}
-		for(i = 0; i < whitecheck.length; i++) {
+		for(i = 0; i < whitecheck.length; i++) {	//Capture of White Pieces
 
 			var $check = $("#"+whitecheck[i].id);
 
