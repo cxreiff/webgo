@@ -84,7 +84,7 @@ function captureWhite() {
 		}
 
 		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("white");}}
-		else {for (j = 0; j < connected.length; j++) { /*whitecheck.not("#"+connected[j]); i--;*/}}
+		else {for (j = 0; j < connected.length; j++) { whitecheck = whitecheck.not("#"+connected[j]);}}
 	}
 }
 
@@ -117,7 +117,7 @@ function captureBlack() {
 		}
 
 		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("black");}}
-		else {for (j = 0; j < connected.length; j++) { /*blackcheck.not("#"+connected[j]); i--;*/}}
+		else {for (j = 0; j < connected.length; j++) { blackcheck = blackcheck.not("#"+connected[j]);}}
 	}
 }
 
@@ -131,19 +131,19 @@ function connect(current, connected, parent) {	//Generates a list of adjacent ti
 
 	if (current.hasClass("black")) {
 
-		if ((parseInt(up) != parent) && $("#t" + up).hasClass("black")) {
+		if ((parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("black")) {
 
 			connect($("#t"+up),connected,tid);
 		}
-		if ((parseInt(down) != parent) && $("#t"+down).hasClass("black")) {
+		if ((parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("black")) {
 
 			connect($("#t"+down),connected,tid);
 		}
-		if ((parseInt(left) != parent) && $("#t"+left).hasClass("black")) {
+		if ((parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("black")) {
 
 			connect($("#t"+left),connected,tid);
 		}
-		if ((parseInt(right) != parent) && $("#t"+right).hasClass("black")) {
+		if ((parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("black")) {
 
 			connect($("#t"+right),connected,tid);
 		}
@@ -152,19 +152,19 @@ function connect(current, connected, parent) {	//Generates a list of adjacent ti
 
 	} else if (current.hasClass("white")) {
 
-		if ((parseInt(up) != parent) && $("#t" + up).hasClass("white")) {
+		if ((parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("white")) {
 
 			connect($("#t"+up),connected,tid);
 		}
-		if ((parseInt(down) != parent) && $("#t"+down).hasClass("white")) {
+		if ((parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("white")) {
 
 			connect($("#t"+down),connected,tid);
 		}
-		if ((parseInt(left) != parent) && $("#t"+left).hasClass("white")) {
+		if ((parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("white")) {
 
 			connect($("#t"+left),connected,tid);
 		}
-		if ((parseInt(right) != parent) && $("#t"+right).hasClass("white")) {
+		if ((parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("white")) {
 
 			connect($("#t"+right),connected,tid);
 		}
