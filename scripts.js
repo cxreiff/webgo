@@ -63,7 +63,9 @@ function captureWhite() {
 
 		var $check = $("#"+whitecheck[i].id);
 
-		var connected = connect($check);
+		var connected = [];
+
+		connected = connect($check, connected, 0);
 
 		var tid = parseInt(($check.attr('id')).slice(1));
 		var up = (tid - 7).toString();
@@ -71,7 +73,7 @@ function captureWhite() {
     	var left = (tid - 1).toString();
 		var right = (tid + 1).toString();
 
-		if (($("#t" + up).hasClass("black") || $("#t" + up).length == 0) // TODO Switch to testing for presence of an empty space anywhere in connected list.
+		if (($("#t" + up).hasClass("black") || $("#t" + up).length == 0) //TODO Switch to testing for presence of an empty space anywhere in connected list.
 			&& ($("#t"+down).hasClass("black") || $("#t" + down).length == 0)
 			&& ($("#t"+left).hasClass("black") || left % 7 == 0)
 			&& ($("#t"+right).hasClass("black") || right % 7 == 1))
@@ -89,7 +91,9 @@ function captureBlack() {
 
 		var $check = $("#"+blackcheck[i].id);
 
-		var connected = [$check[0]];
+		var connected = [];
+
+		connected = connect($check, connected, 0);
 
 		var tid = parseInt(($check.attr('id')).slice(1));
 		var up = (tid - 7).toString();
@@ -107,15 +111,55 @@ function captureBlack() {
 	}
 }
 
-function connect(current) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
+function connect(current, connected, parent) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
+
+	var tid = parseInt((current.attr('id')).slice(1)); //TODO fix undefined
+	var up = (tid - 7).toString();
+	var down = (tid + 7).toString();
+	var left = (tid - 1).toString();
+	var right = (tid + 1).toString();
 
 	if (current.hasClass("black")) {
 
-		//
+		if ((up != parent) && $("#t" + up).hasClass("black")) {
+
+			connected.push(connect($("#t"+up),connected,tid));
+		}
+		if ((down != parent) && $("#t"+down).hasClass("black")) {
+
+			connected.push(connect($("#t"+down),connected,tid));
+		}
+		if ((left != parent) && $("#t"+left).hasClass("black")) {
+
+			connected.push(connect($("#t"+left),connected,tid));
+		}
+		if ((right != parent) && $("#t"+right).hasClass("black")) {
+
+			connected.push(connect($("#t"+right),connected,tid));
+		}
+
+		return ("t"+tid);
 
 	} else if (current.hasClass("white")) {
 
-		//
+		if ((up != parent) && $("#t" + up).hasClass("white")) {
+
+			connected.push(connect($("#t"+up),connected,tid));
+		}
+		if ((down != parent) && $("#t"+down).hasClass("white")) {
+
+			connected.push(connect($("#t"+down),connected,tid));
+		}
+		if ((left != parent) && $("#t"+left).hasClass("white")) {
+
+			connected.push(connect($("#t"+left),connected,tid));
+		}
+		if ((right != parent) && $("#t"+right).hasClass("white")) {
+
+			connected.push(connect($("#t"+right),connected,tid));
+		}
+
+		return ("t"+tid);
 
 	}
 }
