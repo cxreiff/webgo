@@ -32,6 +32,9 @@ $(document).ready(function f() {
 
 				captureWhite();
 
+				//TODO	Insert code here for checking if stone just placed is captured.
+				//		If so, remove without changing score and do not change turn (invalid move).
+
 				f.turn = !f.turn;
 			}
 			else
@@ -42,6 +45,9 @@ $(document).ready(function f() {
 				$(".marker").addClass("black");
 
 				captureBlack();
+
+				//TODO	Insert code here for checking if stone just placed is captured.
+				//		If so, remove without changing score and do not change turn (invalid move).
 
 				f.turn = !f.turn;
 			}
@@ -57,13 +63,15 @@ function captureWhite() {
 
 		var $check = $("#"+whitecheck[i].id);
 
+		var connected = connect($check);
+
 		var tid = parseInt(($check.attr('id')).slice(1));
 		var up = (tid - 7).toString();
     	var down = (tid + 7).toString();
     	var left = (tid - 1).toString();
 		var right = (tid + 1).toString();
 
-		if (($("#t" + up).hasClass("black") || $("#t" + up).length == 0)
+		if (($("#t" + up).hasClass("black") || $("#t" + up).length == 0) // TODO Switch to testing for presence of an empty space anywhere in connected list.
 			&& ($("#t"+down).hasClass("black") || $("#t" + down).length == 0)
 			&& ($("#t"+left).hasClass("black") || left % 7 == 0)
 			&& ($("#t"+right).hasClass("black") || right % 7 == 1))
@@ -81,6 +89,8 @@ function captureBlack() {
 
 		var $check = $("#"+blackcheck[i].id);
 
+		var connected = [$check[0]];
+
 		var tid = parseInt(($check.attr('id')).slice(1));
 		var up = (tid - 7).toString();
     	var down = (tid + 7).toString();
@@ -94,5 +104,18 @@ function captureBlack() {
 		{
 			$check.removeClass("black");
 		}
+	}
+}
+
+function connect(current) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
+
+	if (current.hasClass("black")) {
+
+		//
+
+	} else if (current.hasClass("white")) {
+
+		//
+
 	}
 }
