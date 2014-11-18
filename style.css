@@ -7,6 +7,9 @@ table {
 img {
   max-width: 100%;
 }
+hr {
+	width: 60%;
+}
 
 #container {
 	top: 10vh;
