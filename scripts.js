@@ -10,6 +10,7 @@
 
 var blackCap = 0;
 var whiteCap = 0;
+var finished = false;
 
 $(document).ready(function f() {
 
@@ -20,9 +21,34 @@ $(document).ready(function f() {
 		});
 	});
 
+	var passed = false;
 	f.turn = true;
 
+	$(".pass").click(function () {
+
+		if (passed) endgame();
+		else {
+
+			if (f.turn) {
+
+				$(".marker").removeClass("black");
+				$(".marker").addClass("white");
+			} else {
+
+				$(".marker").removeClass("white");
+				$(".marker").addClass("black");
+			}
+
+			passed = true;
+			f.turn = !f.turn;
+		}
+	});
+
 	$("div.tile").click(function () {
+
+		if (finished) return;
+
+		passed = false;
 
 		if ((!($(this).hasClass("black"))&&(!($(this).hasClass("white")))))	//Turn Switching & Stone placement.
 		{
@@ -204,4 +230,10 @@ function connect(current, connected) {	//Generates a list of adjacent tiles with
 			connect($("#t"+right),connected);
 		}
 	}
+}
+
+function endgame() {
+
+	$(".pass").html("FINISHED");
+	finished = true;
 }
