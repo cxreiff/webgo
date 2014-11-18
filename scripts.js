@@ -59,13 +59,13 @@ function captureWhite() {
 
 	var whitecheck = $(".tile.white");
 
-	for(i = 0; i < whitecheck.length; i++) {
+	while (whitecheck.length > 0) {
 
-		var $check = $("#"+whitecheck[i].id);
+		var $check = $("#"+whitecheck[0].id);
 
 		var connected = [];
 
-		connect($check, connected, 0);
+		connect($check, connected);
 
 		var life = false;
 
@@ -83,7 +83,7 @@ function captureWhite() {
 			if (!($("#t"+right).hasClass("black")) && !($("#t"+right).hasClass("white")) && right % 7 != 1) {life = true; break;}
 		}
 
-		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("white");}}
+		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("white"); whitecheck = whitecheck.not("#"+connected[j]);}}
 		else {for (j = 0; j < connected.length; j++) { whitecheck = whitecheck.not("#"+connected[j]);}}
 	}
 }
@@ -92,13 +92,13 @@ function captureBlack() {
 
 	var blackcheck = $(".tile.black");
 
-	for(i = 0; i < blackcheck.length; i++) {
+	while (blackcheck.length > 0) {
 
-		var $check = $("#"+blackcheck[i].id);
+		var $check = $("#"+blackcheck[0].id);
 
 		var connected = [];
 
-		connect($check, connected, 0);
+		connect($check, connected);
 
 		var life = false;
 
@@ -116,12 +116,12 @@ function captureBlack() {
 			if (!($("#t"+right).hasClass("white")) && !($("#t"+right).hasClass("black")) && right % 7 != 1) {life = true; break;}
 		}
 
-		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("black");}}
+		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("black"); blackcheck = blackcheck.not("#"+connected[j]);}}
 		else {for (j = 0; j < connected.length; j++) { blackcheck = blackcheck.not("#"+connected[j]);}}
 	}
 }
 
-function connect(current, connected, parent) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
+function connect(current, connected) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
 
 	var tid = parseInt((current.attr('id')).slice(1));
 	var up = (tid - 7).toString();
@@ -133,42 +133,42 @@ function connect(current, connected, parent) {	//Generates a list of adjacent ti
 
 		connected.push("t"+tid);
 
-		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("black")) {
+		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && $("#t" + up).hasClass("black")) {
 
-			connect($("#t"+up),connected,tid);
+			connect($("#t"+up),connected);
 		}
-		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("black")) {
+		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && $("#t"+down).hasClass("black")) {
 
-			connect($("#t"+down),connected,tid);
+			connect($("#t"+down),connected);
 		}
-		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("black")) {
+		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && $("#t"+left).hasClass("black")) {
 
-			connect($("#t"+left),connected,tid);
+			connect($("#t"+left),connected);
 		}
-		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("black")) {
+		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && $("#t"+right).hasClass("black")) {
 
-			connect($("#t"+right),connected,tid);
+			connect($("#t"+right),connected);
 		}
 
 	} else if (current.hasClass("white")) {
 
 		connected.push("t"+tid);
 
-		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("white")) {
+		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && $("#t" + up).hasClass("white")) {
 
-			connect($("#t"+up),connected,tid);
+			connect($("#t"+up),connected);
 		}
-		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("white")) {
+		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && $("#t"+down).hasClass("white")) {
 
-			connect($("#t"+down),connected,tid);
+			connect($("#t"+down),connected);
 		}
-		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("white")) {
+		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && $("#t"+left).hasClass("white")) {
 
-			connect($("#t"+left),connected,tid);
+			connect($("#t"+left),connected);
 		}
-		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("white")) {
+		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && $("#t"+right).hasClass("white")) {
 
-			connect($("#t"+right),connected,tid);
+			connect($("#t"+right),connected);
 		}
 	}
 }
