@@ -8,6 +8,9 @@
 //								captured or removed from the list of pieces to check, and to prevent
 //								loops where a recursively checked tile checks its caller.)
 
+var blackCap = 0;
+var whiteCap = 0;
+
 $(document).ready(function f() {
 
 	$(window).on("load resize scroll",function(e){	//Keeps board square when width is dynamically set.
@@ -18,8 +21,6 @@ $(document).ready(function f() {
 	});
 
 	f.turn = true;
-	var blackCap = 0;
-	var whiteCap = 0;
 
 	$("div.tile").click(function () {
 
@@ -56,7 +57,7 @@ $(document).ready(function f() {
 				else {$(this).removeClass("white");}
 			}
 
-			$(".score").html("Score: "+window.blackCap.toString()+" - "+window.whiteCap.toString());
+			$(".score").html("Captures: "+blackCap.toString()+" - "+whiteCap.toString());
 		}
 	});
 });
@@ -93,7 +94,7 @@ function captureWhite(recent) {	//Tests groups of stones for liberties and condi
 
 			if($.inArray(recent.attr('id'), connected) == -1) {
 
-				window.blackCap++;
+				blackCap++;
 				$("#"+connected[j]).removeClass("white");
 				whitecheck = whitecheck.not("#"+connected[j]);
 			} else {
@@ -139,7 +140,7 @@ function captureBlack(recent) {	//Tests groups of stones for liberties and condi
 
 			if($.inArray(recent.attr('id'), connected) == -1) {
 
-				window.whiteCap++;
+				whiteCap++;
 				$("#"+connected[j]).removeClass("black");
 				blackcheck = blackcheck.not("#"+connected[j]);
 			} else {
