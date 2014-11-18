@@ -57,7 +57,7 @@ $(document).ready(function f() {
 	});
 });
 
-function captureWhite(recent) {
+function captureWhite(recent) {	//Tests groups of stones for liberties and conditionally captures.
 
 	var whitecheck = $(".tile.white");
 
@@ -102,7 +102,7 @@ function captureWhite(recent) {
 	return 1;
 }
 
-function captureBlack(recent) {
+function captureBlack(recent) {	//Tests groups of stones for liberties and conditionally captures.
 
 	var blackcheck = $(".tile.black");
 
