@@ -25,37 +25,39 @@ $(document).ready(function f() {
 		{
 			if (f.turn)
 			{
-				$(this).removeClass("black white");
 				$(this).addClass("black");
-				$(".marker").removeClass("black");
-				$(".marker").addClass("white");
+				
+				captureWhite($(this));
+				var legal = captureBlack($(this));
 
-				captureWhite();
-
-				//TODO	Insert code here for checking if stone just placed is captured.
-				//		If so, remove without changing score and do not change turn (invalid move).
-
-				f.turn = !f.turn;
+				if (legal > 0) {
+					
+					$(".marker").removeClass("black");
+					$(".marker").addClass("white");
+					f.turn = !f.turn;
+				}
+				else {$(this).removeClass("black");}
 			}
 			else
 			{
-				$(this).removeClass("black white");
 				$(this).addClass("white");
-				$(".marker").removeClass("white");
-				$(".marker").addClass("black");
 
-				captureBlack();
+				captureBlack($(this));
+				var legal = captureWhite($(this));
 
-				//TODO	Insert code here for checking if stone just placed is captured.
-				//		If so, remove without changing score and do not change turn (invalid move).
+				if (legal > 0) {
 
-				f.turn = !f.turn;
+					$(".marker").removeClass("white");
+					$(".marker").addClass("black");
+					f.turn = !f.turn;
+				}
+				else {$(this).removeClass("white");}
 			}
 		}
 	});
 });
 
-function captureWhite() {
+function captureWhite(recent) {
 
 	var whitecheck = $(".tile.white");
 
@@ -83,12 +85,24 @@ function captureWhite() {
 			if (!($("#t"+right).hasClass("black")) && !($("#t"+right).hasClass("white")) && right % 7 != 1) {life = true; break;}
 		}
 
-		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("white"); whitecheck = whitecheck.not("#"+connected[j]);}}
+		if (!life) { for (j = 0; j < connected.length; j++) {
+
+			if($.inArray(recent.attr('id'), connected) == -1) {
+
+				$("#"+connected[j]).removeClass("white");
+				whitecheck = whitecheck.not("#"+connected[j]);
+			} else {
+
+				return 0;
+			}
+		}}
 		else {for (j = 0; j < connected.length; j++) { whitecheck = whitecheck.not("#"+connected[j]);}}
 	}
+
+	return 1;
 }
 
-function captureBlack() {
+function captureBlack(recent) {
 
 	var blackcheck = $(".tile.black");
 
@@ -116,9 +130,21 @@ function captureBlack() {
 			if (!($("#t"+right).hasClass("white")) && !($("#t"+right).hasClass("black")) && right % 7 != 1) {life = true; break;}
 		}
 
-		if (!life) {for (j = 0; j < connected.length; j++) { $("#"+connected[j]).removeClass("black"); blackcheck = blackcheck.not("#"+connected[j]);}}
+		if (!life) { for (j = 0; j < connected.length; j++) {
+
+			if($.inArray(recent.attr('id'), connected) == -1) {
+
+				$("#"+connected[j]).removeClass("black");
+				blackcheck = blackcheck.not("#"+connected[j]);
+			} else {
+
+				return 0;
+			}
+		}}
 		else {for (j = 0; j < connected.length; j++) { blackcheck = blackcheck.not("#"+connected[j]);}}
 	}
+
+	return 1;
 }
 
 function connect(current, connected) {	//Generates a list of adjacent tiles with stones of the same color (group of connected stones).
