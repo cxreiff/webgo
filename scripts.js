@@ -131,45 +131,44 @@ function connect(current, connected, parent) {	//Generates a list of adjacent ti
 
 	if (current.hasClass("black")) {
 
-		if ((parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("black")) {
+		connected.push("t"+tid);
+
+		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("black")) {
 
 			connect($("#t"+up),connected,tid);
 		}
-		if ((parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("black")) {
+		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("black")) {
 
 			connect($("#t"+down),connected,tid);
 		}
-		if ((parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("black")) {
+		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("black")) {
 
 			connect($("#t"+left),connected,tid);
 		}
-		if ((parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("black")) {
+		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("black")) {
 
 			connect($("#t"+right),connected,tid);
 		}
-
-		connected.push("t"+tid);
 
 	} else if (current.hasClass("white")) {
 
-		if ((parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("white")) {
+		connected.push("t"+tid);
+
+		if (($.inArray("t"+up, connected) == -1) && (parseInt(up) > 0) && (parseInt(up) != parent) && $("#t" + up).hasClass("white")) {
 
 			connect($("#t"+up),connected,tid);
 		}
-		if ((parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("white")) {
+		if (($.inArray("t"+down, connected) == -1) && (parseInt(down) < 50) && (parseInt(down) != parent) && $("#t"+down).hasClass("white")) {
 
 			connect($("#t"+down),connected,tid);
 		}
-		if ((parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("white")) {
+		if (($.inArray("t"+left, connected) == -1) && (parseInt(left) % 7 != 0) && (parseInt(left) != parent) && $("#t"+left).hasClass("white")) {
 
 			connect($("#t"+left),connected,tid);
 		}
-		if ((parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("white")) {
+		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && (parseInt(right) != parent) && $("#t"+right).hasClass("white")) {
 
 			connect($("#t"+right),connected,tid);
 		}
-
-		connected.push("t"+tid);
-
 	}
 }
