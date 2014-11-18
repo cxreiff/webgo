@@ -18,6 +18,8 @@ $(document).ready(function f() {
 	});
 
 	f.turn = true;
+	var blackCap = 0;
+	var whiteCap = 0;
 
 	$("div.tile").click(function () {
 
@@ -53,6 +55,8 @@ $(document).ready(function f() {
 				}
 				else {$(this).removeClass("white");}
 			}
+
+			$(".score").html("Score: "+window.blackCap.toString()+" - "+window.whiteCap.toString());
 		}
 	});
 });
@@ -89,6 +93,7 @@ function captureWhite(recent) {	//Tests groups of stones for liberties and condi
 
 			if($.inArray(recent.attr('id'), connected) == -1) {
 
+				window.blackCap++;
 				$("#"+connected[j]).removeClass("white");
 				whitecheck = whitecheck.not("#"+connected[j]);
 			} else {
@@ -134,6 +139,7 @@ function captureBlack(recent) {	//Tests groups of stones for liberties and condi
 
 			if($.inArray(recent.attr('id'), connected) == -1) {
 
+				window.whiteCap++;
 				$("#"+connected[j]).removeClass("black");
 				blackcheck = blackcheck.not("#"+connected[j]);
 			} else {
