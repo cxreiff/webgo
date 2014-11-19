@@ -280,5 +280,5 @@ function endgame() {
 
 	result = boardString();
 
-	//Add code for evaluating endgame position, probably within the AI web service.
+	//Add code for evaluating endgame position within the AI web service.
 }
