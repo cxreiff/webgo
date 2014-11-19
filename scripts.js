@@ -80,6 +80,9 @@ $(document).ready(function f() {
 
 				if (legal > 0) {
 
+					posits.shift();
+					posits.push(boardString());
+
 					$(".marker").removeClass("white");
 					$(".marker").addClass("black");
 					f.turn = !f.turn;
@@ -129,7 +132,7 @@ function captureWhite(recent) {	//Tests groups of stones for liberties and condi
 
 		if (!life) { for (j = 0; j < connected.length; j++) {
 
-			if ($.inArray(recent.attr('id'), connected) == -1) {
+			if (($.inArray(recent.attr('id'), connected) == -1) && checkKo(boardString(connected))) {
 
 				blackCap++;
 				$("#"+connected[j]).removeClass("white");
@@ -175,7 +178,7 @@ function captureBlack(recent) {	//Tests groups of stones for liberties and condi
 
 		if (!life) { for (j = 0; j < connected.length; j++) {
 
-			if ($.inArray(recent.attr('id'), connected) == -1) {
+			if (($.inArray(recent.attr('id'), connected) == -1) && checkKo(boardString(connected))) {
 
 				whiteCap++;
 				$("#"+connected[j]).removeClass("black");
