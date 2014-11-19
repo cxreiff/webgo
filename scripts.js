@@ -11,6 +11,7 @@
 var blackCap = 0;
 var whiteCap = 0;
 var finished = false;
+var posits = ["","","","","",""];
 
 $(document).ready(function f() {
 
@@ -60,6 +61,9 @@ $(document).ready(function f() {
 				var legal = captureBlack($(this));
 
 				if (legal > 0) {
+
+					posits.shift();
+					posits.push(boardString());
 					
 					$(".marker").removeClass("black");
 					$(".marker").addClass("white");
@@ -87,6 +91,13 @@ $(document).ready(function f() {
 		}
 	});
 });
+
+function checkKo(pos) {
+
+	if ($.inArray(pos, posits) > -1) { return false; }
+	
+	return true;
+}
 
 function captureWhite(recent) {	//Tests groups of stones for liberties and conditionally captures.
 
@@ -118,7 +129,7 @@ function captureWhite(recent) {	//Tests groups of stones for liberties and condi
 
 		if (!life) { for (j = 0; j < connected.length; j++) {
 
-			if($.inArray(recent.attr('id'), connected) == -1) {
+			if ($.inArray(recent.attr('id'), connected) == -1) {
 
 				blackCap++;
 				$("#"+connected[j]).removeClass("white");
@@ -164,7 +175,7 @@ function captureBlack(recent) {	//Tests groups of stones for liberties and condi
 
 		if (!life) { for (j = 0; j < connected.length; j++) {
 
-			if($.inArray(recent.attr('id'), connected) == -1) {
+			if ($.inArray(recent.attr('id'), connected) == -1) {
 
 				whiteCap++;
 				$("#"+connected[j]).removeClass("black");
@@ -232,8 +243,39 @@ function connect(current, connected) {	//Generates a list of adjacent tiles with
 	}
 }
 
+function boardString(except) {
+
+	var tiles = $(".tile");
+	var result = "";
+
+	for (i = 0; i < tiles.length; i++) {
+
+		if (i < 9) result = result + 0;
+		result = result + tiles[i].id.slice(1);
+
+		if ($.inArray(tiles[i].id, except) > -1) {
+
+			result = result + "e";
+		} else {
+
+			if ($("#"+tiles[i].id).hasClass("black")) result = result + "b";
+			else if ($("#"+tiles[i].id).hasClass("white")) result = result + "w";
+			else result = result + "e";
+		}
+	}
+
+	return result;
+}
+
 function endgame() {
 
 	$(".pass").html("FINISHED");
 	finished = true;
+
+	var blackTer = 0;
+	var whiteTer = 0;
+
+	result = boardString();
+
+	//Add code for evaluating endgame position, probably within the AI web service.
 }
