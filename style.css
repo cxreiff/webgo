@@ -72,7 +72,7 @@ div.tile {
 
 div.marker {
 	margin-left: 33%;
-	width:33%;
+	width: 60%;
 	left: 30%;
 	top: 30px;
 }
@@ -136,7 +136,7 @@ p.pass {
 
 h1 {
 	margin-top: 1%;
-	font-size: 5vh;
+	font-size: 7vh;
 	text-align: center;
 	font-family: "Futura";
 }
@@ -145,6 +145,11 @@ h2 {
 	font-size: 3vh;
 	text-align: center;
 	font-family: "Futura";
+}
+.leftbar h2 {
+
+	margin-left: 25%;
+	font-size: 5vh;
 }
 h3 {
 	font-size: 3vh;
