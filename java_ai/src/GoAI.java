@@ -7,7 +7,7 @@
 public class GoAI
 {
 
-    public static String main(String[] args)
+    public static void main(String[] args)
     {
         String input = new String("0xxx");    //input string representation of game board state.
 
@@ -19,7 +19,7 @@ public class GoAI
         if(op==0) result = nextMove(pos);
         else result = evalEnd(pos);
 
-        return result;
+        //return result to javascript page.
     }
 
     public static String evalEnd(String pos)
