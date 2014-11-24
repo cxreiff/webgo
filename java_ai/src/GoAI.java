@@ -7,28 +7,29 @@
 public class GoAI
 {
 
-    public static void main(String[] args)
-    {
-        String input = new String("0xxx");    //input string representation of game board state.
+	public static void main(String[] args)
+	{
+		String input = "0zzz";	//input string representation of game board state.
 
-        int op = Integer.parseInt(input.substring(0,1));
-        String pos = input.substring(1);
+		int op = Integer.parseInt(input.substring(0, 1));
+		String pos = input.substring(1);
 
-        String result;
+		String result;
 
-        if(op==0) result = nextMove(pos);
-        else result = evalEnd(pos);
+		if(op == 0) result = nextMove(pos);
+		else result = evalEnd(pos);
 
-        //return result to javascript page.
-    }
+		System.out.println(result);
+		//return result to javascript page.
+	}
 
-    public static String evalEnd(String pos)
-    {
-        return pos;
-    }
+	public static String nextMove(String pos)
+	{
+		return pos+"yyy";
+	}
 
-    public static String nextMove(String pos)
-    {
-        return "yyy";
-    }
+	public static String evalEnd(String pos)
+	{
+		return pos+"xxx";
+	}
 }
