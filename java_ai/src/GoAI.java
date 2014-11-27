@@ -47,16 +47,16 @@ public class GoAI
 
 		String result;
 
-		if(op == 0) result = nextMove(pos);
+		if(op == 0) result = nextMove(pos, turn);
 		else result = evalEnd(pos);
 
 		System.out.println("\n"+result);
 		//TODO Return result to javascript go page.
 	}
 
-	public static String nextMove(String pos)		//Returns an intelligent next move for the player
+	public static String nextMove(String pos, int turn)		//Returns an intelligent next move for the player
 	{
-		return pos+"yyy";
+		return pos+"yyy"+turn;
 	}
 
 	public static String evalEnd(String pos)		//Returns an evaluation of the final board position.
