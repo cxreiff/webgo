@@ -61,6 +61,11 @@ public class GoAI
 
 	public static String evalEnd(String pos)		//Returns an evaluation of the final board position.
 	{
+		//Add all empty tiles to an ArrayList.
+		//Group empty tiles into groups of adjacent tiles.
+		//If a tile group is only adjacent to one type of stone, add number of empty tiles in group to score of stone type.
+		//Remove evaluated group from list of empty tiles.
+
 		return pos+"xxx";
 	}
 
