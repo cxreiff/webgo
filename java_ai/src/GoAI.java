@@ -153,13 +153,6 @@ public class GoAI
 
 			if(adjColor == 1) blackTerr += adj.size();
 			else if(adjColor == 2) whiteTerr += adj.size();
-
-			//Remove evaluated group from array of empty tiles.
-
-			System.out.println(empties.toString());
-			System.out.println(adj.toString());
-
-			for(int i = 0; i < adj.size(); i++) empties.remove(empties.indexOf(adj.get(i)));
 		}
 
 		return blackTerr+"x"+whiteTerr;
