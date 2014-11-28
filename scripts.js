@@ -253,9 +253,6 @@ function boardString(except) {
 
 	for (i = 0; i < tiles.length; i++) {
 
-		if (i < 9) result = result + 0;
-		result = result + tiles[i].id.slice(1);
-
 		if ($.inArray(tiles[i].id, except) > -1) {
 
 			result = result + "e";
