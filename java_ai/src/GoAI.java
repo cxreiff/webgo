@@ -5,6 +5,10 @@ import java.util.List;
  * COSC 331 - Programming Project - jreiff17
  *
  * Java AI for Web Go game. Decides computer's moves and analyzes endgame positions.
+ *
+ * Scoring for endgame positions is decided by the following: any group of adjacent empty spaces
+ * adjacent to only board edges and a single stone color adds the number of empty spaces in the
+ * group to the score of that color.
  */
 
 public class GoAI
@@ -15,7 +19,7 @@ public class GoAI
 	public static void main(String[] args)
 	{
 		//TODO Take input from javascript go page.
-		String input = "11xeebweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeb";	//input string representation of game board state.
+		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";	//input string representation of game board state.
 
 		int op = Integer.parseInt(input.substring(0, 1));	//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
 		turn = Integer.parseInt(input.substring(1, 2));	//Determines whether 0: black plays next or 1: white plays next.
@@ -121,7 +125,7 @@ public class GoAI
 							break;
 					}
 				}
-				if ((temp > 0) && (temp - 1) % n != 6) {
+				if ((temp > 0) && (temp - 1) % n != n-1) {
 					switch (pos.charAt(temp - 1)) {
 						case 'b':
 							if (adjColor == 0) adjColor = 1;
@@ -176,12 +180,12 @@ public class GoAI
 				empties.add(0, empties.remove(empties.indexOf(current + 7)));
 				genAdj(adj, empties);
 			}
-			if (empties.contains(current + 1)) {
+			if ((current + 1 % n != 0) && empties.contains(current + 1)) {
 
 				empties.add(0, empties.remove(empties.indexOf(current + 1)));
 				genAdj(adj, empties);
 			}
-			if (empties.contains(current - 1)) {
+			if ((current - 1 % n != n-1) && empties.contains(current - 1)) {
 
 				empties.add(0, empties.remove(empties.indexOf(current - 1)));
 				genAdj(adj, empties);
