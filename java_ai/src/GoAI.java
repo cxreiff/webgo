@@ -53,7 +53,7 @@ public class GoAI
 		else result = evalEnd(pos);
 
 		System.out.println("\n"+result);
-		
+
 		//TODO Return result to javascript go page.
 	}
 
@@ -90,7 +90,7 @@ public class GoAI
 
 		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 
-		return pos+"yyy"+turn;
+		return "DECISION";
 	}
 
 	public static String evalEnd(String pos)		//Returns an evaluation of the final board position.
