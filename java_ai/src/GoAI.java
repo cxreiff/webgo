@@ -16,43 +16,36 @@ public class GoAI
 	static int n;
 	static int turn;
 
+	static Timer timer;
+
 	public static void main(String[] args)
 	{
 		//TODO Take input from javascript go page.
-		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";	//input string representation of game board state.
 
-		int op = Integer.parseInt(input.substring(0, 1));	//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
-		turn = Integer.parseInt(input.substring(1, 2));	//Determines whether 0: black plays next or 1: white plays next.
+		//input string representation of game board state.
+		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
+
+		//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
+		int op = Integer.parseInt(input.substring(0, 1));
+
+		//Determines whether 0: black plays next or 1: white plays next.
+		turn = Integer.parseInt(input.substring(1, 2));
+
+		//string representation of the board and its stones.
 		String pos = input.substring(3);
 
-		n = (int)(Math.sqrt((pos.length())));			//Length of each side of the board.
+		//Timer to determine how long to "think" before making a move.
+		timer = new Timer();
 
-		int[][] board = new int[n][n];
+		//Length of each side of the board.
+		n = (int)(Math.sqrt((pos.length())));
 
-		for(int i = 0; i < n; i++)
-		{
-			for(int j = 0; j < n; j++)
-			{
-				char stone = pos.charAt((i*7)+j);
 
-				switch(stone)
-				{
-					case 'e':
-						board[i][j] = 0;
-						break;
-					case 'b':
-						board[i][j] = 1;
-						break;
-					case 'w':
-						board[i][j] = 2;
-						break;
-				}
-			}
-		}
+		//2D matrix representation of board, 0: empty, 1: black, 2: white.
+		int[][] board = genBoard(pos);
+		printBoard(board);
 
 		System.out.println("turn: player "+(turn+1)+"\n");
-
-		printBoard(board);
 
 		String result;
 
@@ -65,6 +58,28 @@ public class GoAI
 
 	public static String nextMove(String pos, int turn)		//Returns an intelligent next move for the player
 	{
+		timer.reset();
+
+		int patience = 10000;	//This is the amount of milliseconds that the MCTS algorithm searches for before moving.
+
+		//Before each loop of MCTS, make sure that the time limit has not been exceeded.
+		while(timer.elapsed() < patience)
+		{
+
+		}
+
+		//Take two multiplied by the depth for the Monte Carlo Tree Search and add it to the turn value.
+
+		//Recursively make random moves by replacing 'e's in the position string with 'b's and 'w's
+		//depending on whether the turn count is odd or even, and then applying capture logic.
+
+		//At each level of recursive depth, decrease turn count by one.
+
+		//When turn count reaches 0, evaluate position using endgame evaluation method, add running count of
+		//captured pieces, and use result to update values of each node in the monte carlo tree.
+
+		//When node adjustments have been made, choose the option with the best value.
+
 		return pos+"yyy"+turn;
 	}
 
@@ -90,7 +105,8 @@ public class GoAI
 
 			System.out.println("x: "+adj.toString());
 
-			//If a tile group is only adjacent to one type of stone, add number of empty tiles in group to score of stone type.
+			//If a tile group is only adjacent to one type of stone,
+			//add number of empty tiles in group to score of stone type.
 
 			int adjColor = 0;	//0 if no adjacent stones so far, 1 if black is found, 2 if white is found, 3 if both.
 
@@ -193,7 +209,34 @@ public class GoAI
 		}
 	}
 
-	public static void printBoard(int[][] board)	//Prints the board matrix, 0:empty, 1:black, 2:white.
+	public static int[][] genBoard(String pos)	//TODO Remove.
+	{
+		int[][] board = new int[n][n];
+
+		for(int i = 0; i < n; i++)
+		{
+			for(int j = 0; j < n; j++)
+			{
+				char stone = pos.charAt((i*7)+j);
+
+				switch(stone)
+				{
+					case 'e':
+						board[i][j] = 0;
+						break;
+					case 'b':
+						board[i][j] = 1;
+						break;
+					case 'w':
+						board[i][j] = 2;
+						break;
+				}
+			}
+		}
+
+		return board;
+	}
+	public static void printBoard(int[][] board)	//Prints the board matrix, 0:empty, 1:black, 2:white. TODO Remove.
 	{
 		for(int i=0; i < board.length; i++)
 		{
