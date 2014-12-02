@@ -15,12 +15,14 @@ var posits = ["","","","","",""];
 
 $(document).ready(function f() {
 
-	$(window).on("load resize scroll",function(e){	//Keeps board square when width is dynamically set.
+	//Keeps board square when width is dynamically set.
+	$(window).on("load resize scroll",function(e){
     	var cw = $('.board').width();
 		$('.board').css({
     		'height': cw + 'px'
 		});
 	});
+
 
 	var passed = false;
 	f.turn = true;
