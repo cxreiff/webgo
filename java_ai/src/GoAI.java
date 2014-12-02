@@ -66,19 +66,28 @@ public class GoAI
 		while(timer.elapsed() < patience)
 		{
 
+			//Optimally (using UCT) choose a node in the game tree.
+
+			//Expand the chosen node by picking a random child state.
+
+			//Use evaluated random play from that new node to evaluate it.
+
+			//Add 2*M, M being some value representing depth into the game to randomly play, to the turn value.
+
+			//Make random moves, stone color depending on whether the turn count is odd or even.
+
+			//Apply capturing logic, decrease the turn count by one each move.
+
+			//When turn count reaches 0, break.
+
+			//Evaluate position using endgame evaluation method, add running count of
+			//captured pieces, and use result to update values of each node in the monte carlo tree.
+
+			//Use evaluation of new node to update values of each ancestor node.
+
 		}
 
-		//Take two multiplied by the depth for the Monte Carlo Tree Search and add it to the turn value.
-
-		//Recursively make random moves by replacing 'e's in the position string with 'b's and 'w's
-		//depending on whether the turn count is odd or even, and then applying capture logic.
-
-		//At each level of recursive depth, decrease turn count by one.
-
-		//When turn count reaches 0, evaluate position using endgame evaluation method, add running count of
-		//captured pieces, and use result to update values of each node in the monte carlo tree.
-
-		//When node adjustments have been made, choose the option with the best value.
+		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 
 		return pos+"yyy"+turn;
 	}
