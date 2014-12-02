@@ -53,6 +53,7 @@ public class GoAI
 		else result = evalEnd(pos);
 
 		System.out.println("\n"+result);
+		
 		//TODO Return result to javascript go page.
 	}
 
