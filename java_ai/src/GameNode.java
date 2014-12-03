@@ -30,12 +30,16 @@ public class GameNode
 
 	public GameNode expand()
 	{
+		GameNode result = newChild();
+		children.add(result);
+		return result;
+	}
+	public GameNode newChild()
+	{
 		String childPos;
 		int target;
 
-		//TODO Screen move choice for immediate capture and/or rule of ko.
-
-		if (turn % 2 == 0)
+		if (turn == 0)
 		{
 			do
 			{
@@ -60,17 +64,13 @@ public class GameNode
 			} while((pos.charAt(target) != 'e') && (captureWhite(childPos).charAt(target) != 'e') && checkKo(childPos));
 		}
 
-		GameNode newChild = new GameNode((turn + 1) % 2, childPos, advanceKo(kolist), this);
-
-		children.add(newChild);
-
-		return newChild;
+		return new GameNode((turn + 1) % 2, childPos, advanceKo(kolist), this);
 	}
 
 	public void evaluate()
 	{
-		//Add 2 * searchiness to the turn value, searchiness being some value representing the
-		//depth into the game to randomly play.
+		//Add 2 * searchiness to the turn value.
+		//Searchiness is some value representing the depth into the game to randomly play.
 		int turns = turn + 2 * searchiness;
 
 		int blackcap = 0;
@@ -81,24 +81,35 @@ public class GameNode
 		//Make random moves, stone color depending on whether the turn count is odd or even.
 		while(turns > 0)
 		{
-			int target = (int)(Math.random() * child.length());
+			String nextChild;
+			int target;
 
-			//TODO Screen move choice for immediate capture and/or rule of ko.
-			while(child.charAt(target) != 'e') {target = (int)(Math.random() * child.length());}
-
-			if(turns % 2 == 0)
+			if (turns % 2 == 0)
 			{
-				child = child.substring(0, target) + "b" + child.substring(target + 1);
+				do
+				{
+					target = (int)(Math.random() * child.length());
 
-				child = captureWhite(child);
+					nextChild = child.substring(0, target) + "b" + child.substring(target + 1);
+
+					nextChild = captureWhite(nextChild);
+
+				} while((child.charAt(target) != 'e') && (captureBlack(nextChild).charAt(target) != 'e') && checkKo(nextChild));
 			}
 			else
 			{
-				child = child.substring(0, target) + "w" + child.substring(target + 1);
+				do
+				{
+					target = (int)(Math.random() * child.length());
 
-				child = captureBlack(child);
+					nextChild = child.substring(0, target) + "w" + child.substring(target + 1);
+
+					nextChild = captureBlack(nextChild);
+
+				} while((child.charAt(target) != 'e') && (captureWhite(nextChild).charAt(target) != 'e') && checkKo(nextChild));
 			}
 
+			child = nextChild;
 			turns--;
 
 		}//When turn count reaches 0, break.
@@ -124,10 +135,7 @@ public class GameNode
 	{
 		String result[] = new String[6];
 
-		for(int i = 0; i < result.length - 1; i++)
-		{
-			result[i] = kolist[i + 1];
-		}
+		System.arraycopy(kolist, 1, result, 0, 5);
 
 		result[5] = this.getPos();
 
@@ -290,6 +298,11 @@ public class GameNode
 	public int getValue()
 	{
 		return this.value;
+	}
+
+	public void addChild(GameNode child)
+	{
+		children.add(child);
 	}
 
 	public int numChildren()

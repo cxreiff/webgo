@@ -27,12 +27,12 @@ public class GoAI
 		//input string representation of game board state.
 		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
 		kolist = new String[6];
-		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
-		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
-		kolist[2] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
-		kolist[3] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
-		kolist[4] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
-		kolist[5] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb1";
+		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb2";
+		kolist[2] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb3";
+		kolist[3] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb4";
+		kolist[4] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb5";
+		kolist[5] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb6";
 
 		//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
 		int op = Integer.parseInt(input.substring(0, 1));
