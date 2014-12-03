@@ -9,15 +9,13 @@ import java.util.List;
 
 public class GameNode
 {
-	private static int searchiness = 42;
 
 	private int turn;
+	private int value;
 	private String pos;
 	private String[] kolist;
 	private GameNode parent;
 	private ArrayList<GameNode> children;
-
-	private int value;
 
 	public GameNode(int turn, String pos, String[] kolist, GameNode parent)
 	{
@@ -28,19 +26,21 @@ public class GameNode
 		this.children = new ArrayList<GameNode>();
 	}
 
-	public GameNode expand()
+	public GameNode expand()	//Generates a child game node, adds it to list of children, and returns it.
 	{
 		GameNode result = newChild();
 		children.add(result);
 		return result;
 	}
-	public GameNode newChild()
+	public GameNode newChild()	//Returns a new node representing a game position reachable in one move from this one.
 	{
 		String childPos;
 		int target;
 
 		if (turn == 0)
 		{
+			int loops = 49;
+
 			do
 			{
 				target = (int)(Math.random() * pos.length());
@@ -49,10 +49,14 @@ public class GameNode
 
 				childPos = captureWhite(childPos);
 
+				if(--loops < 1) return new GameNode((turn+1) % 2, this.getPos(), kolist, this);
+
 			} while((pos.charAt(target) != 'e') && (captureBlack(childPos).charAt(target) != 'e') && checkKo(childPos));
 		}
 		else
 		{
+			int loops = 49;
+
 			do
 			{
 				target = (int)(Math.random() * pos.length());
@@ -61,77 +65,90 @@ public class GameNode
 
 				childPos = captureBlack(childPos);
 
+				if(--loops < 1) return new GameNode((turn+1) % 2, this.getPos(), kolist, this);
+
 			} while((pos.charAt(target) != 'e') && (captureWhite(childPos).charAt(target) != 'e') && checkKo(childPos));
 		}
 
 		return new GameNode((turn + 1) % 2, childPos, advanceKo(kolist), this);
 	}
 
-	public void evaluate()
+	public void evaluate()	//Plays a random game from this node, evaluates the result, and updates values.
 	{
 		//Add 2 * searchiness to the turn value.
 		//Searchiness is some value representing the depth into the game to randomly play.
-		int turns = turn + 2 * searchiness;
+		int searchiness = 40;
 
 		int blackcap = 0;
 		int whitecap = 0;
 
-		String child = pos;
+		GameNode descendant = this.newChild();
 
-		//Make random moves, stone color depending on whether the turn count is odd or even.
-		while(turns > 0)
+		//Make random moves.
+		while(searchiness > 0)
 		{
-			String nextChild;
-			int target;
+			GameNode next = descendant.newChild();
 
-			if (turns % 2 == 0)
+			//Update capture counts.
+			if(descendant.getTurn() == 0)
 			{
-				do
+				for(int i = 0; i < descendant.getPos().length(); i++)
 				{
-					target = (int)(Math.random() * child.length());
-
-					nextChild = child.substring(0, target) + "b" + child.substring(target + 1);
-
-					nextChild = captureWhite(nextChild);
-
-				} while((child.charAt(target) != 'e') && (captureBlack(nextChild).charAt(target) != 'e') && checkKo(nextChild));
+					if(descendant.getPos().charAt(i) == 'w')
+					{
+						if(next.getPos().charAt(i) == 'e') whitecap++;
+					}
+				}
 			}
 			else
 			{
-				do
+				for(int i = 0; i < descendant.getPos().length(); i++)
 				{
-					target = (int)(Math.random() * child.length());
-
-					nextChild = child.substring(0, target) + "w" + child.substring(target + 1);
-
-					nextChild = captureBlack(nextChild);
-
-				} while((child.charAt(target) != 'e') && (captureWhite(nextChild).charAt(target) != 'e') && checkKo(nextChild));
+					if(descendant.getPos().charAt(i) == 'b')
+					{
+						if(next.getPos().charAt(i) == 'e') blackcap++;
+					}
+				}
 			}
 
-			child = nextChild;
-			turns--;
+			//Check for endgame conditions.
+			if(next.getPos().equals(descendant.getPos())) break;	//Break if child is same as parent.
+
+			//Move to generated child.
+			descendant = next;
+
+			searchiness--;
 
 		}//When turn count reaches 0, break.
 
 		//Evaluate position using endgame evaluation method and running count of captured pieces.
+		int evaluation = 1000 * (Integer.parseInt(descendant.countTerritory().substring(0,1)) + whitecap)
+							- 1000 * (Integer.parseInt(descendant.countTerritory().substring(2)) + blackcap);
 
-		//Use evaluation to update values of each ancestor node.
+		//Use evaluation to update values of this and each ancestor node.
+		this.update(evaluation);
 	}
 
-	public String captureWhite(String pos)
+	public void update(int evaluation)	//Adjusts the current value based on input evaluation, and then updates parent.
+	{
+		value = (value + evaluation) / 2;
+
+		if(parent != null) parent.update(value);
+	}
+
+	public String captureWhite(String pos)	//Returns a position string with surrounded white pieces changed to empties.
 	{
 		String result = pos;
 
 		return result;
 	}
-	public String captureBlack(String pos)
+	public String captureBlack(String pos)	//Returns a position string with surrounded black pieces changed to empties.
 	{
 		String result = pos;
 
 		return result;
 	}
-	public String[] advanceKo(String[] kolist)
+	public String[] advanceKo(String[] kolist)	//Updates the list of recent game board positions for enforcing ko.
 	{
 		String result[] = new String[6];
 
@@ -141,7 +158,7 @@ public class GameNode
 
 		return result;
 	}
-	public boolean checkKo(String pos)
+	public boolean checkKo(String pos)	//Checks the input position against the list of recent board positions.
 	{
 		for(int i = 0; i < kolist.length; i++)
 		{
@@ -151,7 +168,7 @@ public class GameNode
 		return true;
 	}
 
-	public static String countTerritory(String pos)		//Returns an evaluation of the final board position.
+	public String countTerritory()		//Returns an evaluation of the final board position.
 	{
 		int n = (int) Math.sqrt(pos.length());
 
@@ -159,19 +176,19 @@ public class GameNode
 		int whiteTerr = 0;
 
 		//Add all empty tiles into an array.
-		List<Integer> empties = new ArrayList<Integer>();
+		List<Integer> candidates = new ArrayList<Integer>();
 
 		for(int i = 0; i < pos.length(); i++)
 		{
-			if(pos.charAt(i) == 'e') empties.add(i);
+			if(pos.charAt(i) == 'e') candidates.add(i);
 		}
 
-		while(empties.size() > 0) {
+		while(candidates.size() > 0) {
 
 			//Group empty tiles into groups of adjacent tiles.
 
 			List<Integer> adj = new ArrayList<Integer>();
-			genAdj(n, adj, empties);
+			genAdj(n, adj, candidates);
 
 			//If a tile group is only adjacent to one type of stone,
 			//add number of empty tiles in group to score of stone type.
@@ -245,68 +262,94 @@ public class GameNode
 
 		return blackTerr+"x"+whiteTerr;
 	}
-	public static void genAdj(int n, List<Integer> adj, List<Integer> empties)
+
+	//Extracts a list of connected candidate nodes from the list of candidates, putting it in adj.
+	public void genAdj(int n, List<Integer> adj, List<Integer> candidates)
 	{
-		int current = empties.remove(0);
+		int current = candidates.remove(0);
 
 		if(!adj.contains(current))
 		{
 			adj.add(current);
 
-			if (empties.contains(current - 7)) {
+			if (candidates.contains(current - 7)) {
 
-				empties.add(0, empties.remove(empties.indexOf(current - 7)));
-				genAdj(n, adj, empties);
+				candidates.add(0, candidates.remove(candidates.indexOf(current - 7)));
+				genAdj(n, adj, candidates);
 			}
-			if (empties.contains(current + 7)) {
+			if (candidates.contains(current + 7)) {
 
-				empties.add(0, empties.remove(empties.indexOf(current + 7)));
-				genAdj(n, adj, empties);
+				candidates.add(0, candidates.remove(candidates.indexOf(current + 7)));
+				genAdj(n, adj, candidates);
 			}
-			if ((current + 1 % n != 0) && empties.contains(current + 1)) {
+			if ((current + 1 % n != 0) && candidates.contains(current + 1)) {
 
-				empties.add(0, empties.remove(empties.indexOf(current + 1)));
-				genAdj(n, adj, empties);
+				candidates.add(0, candidates.remove(candidates.indexOf(current + 1)));
+				genAdj(n, adj, candidates);
 			}
-			if ((current - 1 % n != n-1) && empties.contains(current - 1)) {
+			if ((current - 1 % n != n-1) && candidates.contains(current - 1)) {
 
-				empties.add(0, empties.remove(empties.indexOf(current - 1)));
-				genAdj(n, adj, empties);
+				candidates.add(0, candidates.remove(candidates.indexOf(current - 1)));
+				genAdj(n, adj, candidates);
 			}
 		}
 	}
 
-	public GameNode bestChild()
+	public GameNode bestChild()	//Returns child with the best value (highest if black's turn, lowest if white's turn).
 	{
-		int max = this.getValue();
 		GameNode best = this;
 
-		for (int i = 0; i < children.size(); i++)
+		if(turn == 0)
 		{
-			int val = children.get(i).getValue();
+			int max = Integer.MIN_VALUE;
 
-			if(val > max) { max = val; best = children.get(i); }
+			for (int i = 0; i < children.size(); i++)
+			{
+				int val = children.get(i).getValue();
+
+				if(val > max) { max = val; best = children.get(i); }
+			}
+		}
+		else
+		{
+			int min = Integer.MAX_VALUE;
+
+			for(int i = 0; i < children.size(); i++)
+			{
+				int val = children.get(i).getValue();
+
+				if(val < min) { min = val; best = children.get(i); }
+			}
 		}
 
 		return best;
 	}
 
+	public int getTurn()
+	{
+		return this.turn;
+	}
 	public String getPos()
 	{
-		return pos;
+		return this.pos;
 	}
 	public int getValue()
 	{
 		return this.value;
 	}
 
-	public void addChild(GameNode child)
+	public GameNode getParent()
 	{
-		children.add(child);
+		return parent;
 	}
 
-	public int numChildren()
+	public ArrayList<GameNode> getChildren()
 	{
-		return children.size();
+		return children;
+	}
+
+	public String toString()
+	{
+		return this.getPos() + "--" + this.getValue();
 	}
 }
