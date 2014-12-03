@@ -75,7 +75,9 @@ public class GameNode
 
 		}//When turn count reaches 0, break.
 
-		//Evaluate.
+		//Evaluate position using endgame evaluation method and running count of captured pieces.
+
+		//Use evaluation to update values of each ancestor node.
 	}
 
 	public static String countTerritory(String pos)		//Returns an evaluation of the final board position.

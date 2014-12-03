@@ -13,9 +13,6 @@ import java.util.List;
 
 public class GoAI
 {
-	//The amount of milliseconds that the MCTS algorithm searches for before returning a move.
-	private static int patience = 10000;
-
 	static int n;
 	static int turn;
 
@@ -27,6 +24,7 @@ public class GoAI
 
 		//input string representation of game board state.
 		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
+
 
 		//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
 		int op = Integer.parseInt(input.substring(0, 1));
@@ -48,14 +46,12 @@ public class GoAI
 		int[][] board = genBoard(pos);
 		printBoard(board);
 
-		System.out.println("\n"+"player "+(turn+1)+"'s turn.");
+		System.out.println("\n"+"player "+(turn+1)+"'s turn."+"\n");	//TODO Remove.
 
-		String result;
+		String result = (op == 0) ? nextMove(pos, turn) : evalEnd(pos);
 
-		if(op == 0) result = nextMove(pos, turn);
-		else result = evalEnd(pos);
 
-		System.out.println("\n"+result);
+		System.out.println(result);
 
 		//TODO Return result to javascript go page.
 	}
@@ -69,22 +65,21 @@ public class GoAI
 		ArrayList<GameNode> open = new ArrayList<GameNode>();
 		open.add(root);
 
+		int patience = 10000;	//Time limit in ms to calculate each move.
+
 		//Before each loop of MCTS, make sure that the time limit has not been exceeded.
 		while(timer.elapsed() < patience)
 		{
 
 			//Optimally (using UCT) choose a node in the game tree.
 			//Expand the chosen node by picking a random child state.
-			GameNode current = open.get((int) (Math.random() * open.size())).expand();
+			GameNode current = open.get((int) (Math.random() * open.size())).expand(); //TODO Change from random to UCT.
+
+			//Add new node to pool of nodes that can be expanded.
+			open.add(current);
 
 			//Use evaluated random play from that new node to evaluate it.
 			current.evaluate();
-
-			//Evaluate position using endgame evaluation method, add running count of
-			//captured pieces, and use result to update values of each node in the monte carlo tree.
-
-			//Use evaluation of new node to update values of each ancestor node.
-
 		}
 
 		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
