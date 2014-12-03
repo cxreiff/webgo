@@ -1,5 +1,0 @@
-# prevents access to java_ai
-<files java_ai>
-order allow,deny
-deny from all
-</files>
