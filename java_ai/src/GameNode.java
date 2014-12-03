@@ -13,15 +13,17 @@ public class GameNode
 
 	private int turn;
 	private String pos;
+	private String[] kolist;
 	private GameNode parent;
 	private ArrayList<GameNode> children;
 
 	private int value;
 
-	public GameNode(int turn, String pos, GameNode parent)
+	public GameNode(int turn, String pos, String[] kolist, GameNode parent)
 	{
 		this.turn = turn;
 		this.pos = pos;
+		this.kolist = kolist;
 		this.parent = parent;
 		this.children = new ArrayList<GameNode>();
 	}
@@ -29,26 +31,36 @@ public class GameNode
 	public GameNode expand()
 	{
 		String childPos;
-
-		int target = (int)(Math.random() * pos.length());
+		int target;
 
 		//TODO Screen move choice for immediate capture and/or rule of ko.
-		while(pos.charAt(target) != 'e') {target = (int)(Math.random() * pos.length());}
 
 		if (turn % 2 == 0)
 		{
-			childPos = pos.substring(0, target) + "b" + pos.substring(target + 1);
+			do
+			{
+				target = (int)(Math.random() * pos.length());
 
-			childPos = captureWhite(childPos);
+				childPos = pos.substring(0, target) + "b" + pos.substring(target + 1);
+
+				childPos = captureWhite(childPos);
+
+			} while((pos.charAt(target) != 'e') && (captureBlack(childPos).charAt(target) != 'e') && checkKo(childPos));
 		}
 		else
 		{
-			childPos = pos.substring(0, target) + "w" + pos.substring(target + 1);
+			do
+			{
+				target = (int)(Math.random() * pos.length());
 
-			childPos = captureBlack(childPos);
+				childPos = pos.substring(0, target) + "w" + pos.substring(target + 1);
+
+				childPos = captureBlack(childPos);
+
+			} while((pos.charAt(target) != 'e') && (captureWhite(childPos).charAt(target) != 'e') && checkKo(childPos));
 		}
 
-		GameNode newChild = new GameNode((turn + 1) % 2, childPos, this);
+		GameNode newChild = new GameNode((turn + 1) % 2, childPos, advanceKo(kolist), this);
 
 		children.add(newChild);
 
@@ -107,6 +119,28 @@ public class GameNode
 		String result = pos;
 
 		return result;
+	}
+	public String[] advanceKo(String[] kolist)
+	{
+		String result[] = new String[6];
+
+		for(int i = 0; i < result.length - 1; i++)
+		{
+			result[i] = kolist[i + 1];
+		}
+
+		result[5] = this.getPos();
+
+		return result;
+	}
+	public boolean checkKo(String pos)
+	{
+		for(int i = 0; i < kolist.length; i++)
+		{
+			if(kolist[i].equals(pos)) {return false;}
+		}
+
+		return true;
 	}
 
 	public static String countTerritory(String pos)		//Returns an evaluation of the final board position.

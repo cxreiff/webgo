@@ -16,6 +16,8 @@ public class GoAI
 	static int n;
 	static int turn;
 
+	static String[] kolist;
+
 	static Timer timer;
 
 	public static void main(String[] args)
@@ -24,7 +26,13 @@ public class GoAI
 
 		//input string representation of game board state.
 		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
-
+		kolist = new String[6];
+		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[2] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[3] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[4] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
+		kolist[5] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbbb";
 
 		//Determines whether the AI is being asked for 0: the best next move, or 1: an endgame evaluation.
 		int op = Integer.parseInt(input.substring(0, 1));
@@ -60,7 +68,7 @@ public class GoAI
 	{
 		timer.reset();
 
-		GameNode root = new GameNode(turn, pos, null);
+		GameNode root = new GameNode(turn, pos, kolist, null);
 
 		ArrayList<GameNode> open = new ArrayList<GameNode>();
 		open.add(root);
