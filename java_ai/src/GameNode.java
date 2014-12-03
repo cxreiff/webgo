@@ -32,15 +32,20 @@ public class GameNode
 
 		int target = (int)(Math.random() * pos.length());
 
+		//TODO Screen move choice for immediate capture and/or rule of ko.
 		while(pos.charAt(target) != 'e') {target = (int)(Math.random() * pos.length());}
 
 		if (turn % 2 == 0)
 		{
 			childPos = pos.substring(0, target) + "b" + pos.substring(target + 1);
+
+			childPos = captureWhite(childPos);
 		}
 		else
 		{
 			childPos = pos.substring(0, target) + "w" + pos.substring(target + 1);
+
+			childPos = captureBlack(childPos);
 		}
 
 		GameNode newChild = new GameNode((turn + 1) % 2, childPos, this);
@@ -59,27 +64,49 @@ public class GameNode
 		int blackcap = 0;
 		int whitecap = 0;
 
+		String child = pos;
+
 		//Make random moves, stone color depending on whether the turn count is odd or even.
 		while(turns > 0)
 		{
+			int target = (int)(Math.random() * child.length());
+
+			//TODO Screen move choice for immediate capture and/or rule of ko.
+			while(child.charAt(target) != 'e') {target = (int)(Math.random() * child.length());}
+
 			if(turns % 2 == 0)
 			{
+				child = child.substring(0, target) + "b" + child.substring(target + 1);
 
+				child = captureWhite(child);
 			}
 			else
 			{
+				child = child.substring(0, target) + "w" + child.substring(target + 1);
 
+				child = captureBlack(child);
 			}
 
-			//Apply capturing logic.
-
-			turn--;
+			turns--;
 
 		}//When turn count reaches 0, break.
 
 		//Evaluate position using endgame evaluation method and running count of captured pieces.
 
 		//Use evaluation to update values of each ancestor node.
+	}
+
+	public String captureWhite(String pos)
+	{
+		String result = pos;
+
+		return result;
+	}
+	public String captureBlack(String pos)
+	{
+		String result = pos;
+
+		return result;
 	}
 
 	public static String countTerritory(String pos)		//Returns an evaluation of the final board position.
