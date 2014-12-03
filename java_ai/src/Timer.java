@@ -7,7 +7,7 @@
 public class Timer
 {
 
-	long start;
+	private long start;
 
 	public Timer()
 	{

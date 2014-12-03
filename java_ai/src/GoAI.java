@@ -13,6 +13,9 @@ import java.util.List;
 
 public class GoAI
 {
+	//The amount of milliseconds that the MCTS algorithm searches for before returning a move.
+	private static int patience = 10000;
+
 	static int n;
 	static int turn;
 
@@ -41,11 +44,11 @@ public class GoAI
 		n = (int)(Math.sqrt((pos.length())));
 
 
-		//2D matrix representation of board, 0: empty, 1: black, 2: white.
+		//2D matrix representation of board, 0: empty, 1: black, 2: white. TODO Remove.
 		int[][] board = genBoard(pos);
 		printBoard(board);
 
-		System.out.println("turn: player "+(turn+1)+"\n");
+		System.out.println("\n"+"player "+(turn+1)+"'s turn.");
 
 		String result;
 
@@ -61,25 +64,21 @@ public class GoAI
 	{
 		timer.reset();
 
-		int patience = 10000;	//This is the amount of milliseconds that the MCTS algorithm searches for before moving.
+		GameNode root = new GameNode(turn, pos, null);
+
+		ArrayList<GameNode> open = new ArrayList<GameNode>();
+		open.add(root);
 
 		//Before each loop of MCTS, make sure that the time limit has not been exceeded.
 		while(timer.elapsed() < patience)
 		{
 
 			//Optimally (using UCT) choose a node in the game tree.
-
 			//Expand the chosen node by picking a random child state.
+			GameNode current = open.get((int) (Math.random() * open.size())).expand();
 
 			//Use evaluated random play from that new node to evaluate it.
-
-			//Add 2*M, M being some value representing depth into the game to randomly play, to the turn value.
-
-			//Make random moves, stone color depending on whether the turn count is odd or even.
-
-			//Apply capturing logic, decrease the turn count by one each move.
-
-			//When turn count reaches 0, break.
+			current.evaluate();
 
 			//Evaluate position using endgame evaluation method, add running count of
 			//captured pieces, and use result to update values of each node in the monte carlo tree.
@@ -95,128 +94,7 @@ public class GoAI
 
 	public static String evalEnd(String pos)		//Returns an evaluation of the final board position.
 	{
-		int blackTerr = 0;
-		int whiteTerr = 0;
-
-		//Add all empty tiles into an array.
-		List<Integer> empties = new ArrayList<Integer>();
-
-		for(int i = 0; i < pos.length(); i++)
-		{
-			if(pos.charAt(i) == 'e') empties.add(i);
-		}
-
-		while(empties.size() > 0) {
-
-			//Group empty tiles into groups of adjacent tiles.
-
-			List<Integer> adj = new ArrayList<Integer>();
-			genAdj(adj, empties);
-
-			System.out.println("x: "+adj.toString());
-
-			//If a tile group is only adjacent to one type of stone,
-			//add number of empty tiles in group to score of stone type.
-
-			int adjColor = 0;	//0 if no adjacent stones so far, 1 if black is found, 2 if white is found, 3 if both.
-
-			for(int i = 0; i < adj.size(); i++) {
-				int temp = adj.get(i);
-
-				if (temp - n >= 0) {
-					switch (pos.charAt(temp - n)) {
-						case 'b':
-							if (adjColor == 0) adjColor = 1;
-							else if (adjColor == 2) adjColor = 3;
-							break;
-						case 'w':
-							if (adjColor == 0) adjColor = 2;
-							else if (adjColor == 1) adjColor = 3;
-							break;
-						default:
-							break;
-					}
-				}
-				if (temp + n < n * n) {
-					switch (pos.charAt(temp + n)) {
-						case 'b':
-							if (adjColor == 0) adjColor = 1;
-							else if (adjColor == 2) adjColor = 3;
-							break;
-						case 'w':
-							if (adjColor == 0) adjColor = 2;
-							else if (adjColor == 1) adjColor = 3;
-							break;
-						default:
-							break;
-					}
-				}
-				if ((temp > 0) && (temp - 1) % n != n-1) {
-					switch (pos.charAt(temp - 1)) {
-						case 'b':
-							if (adjColor == 0) adjColor = 1;
-							else if (adjColor == 2) adjColor = 3;
-							break;
-						case 'w':
-							if (adjColor == 0) adjColor = 2;
-							else if (adjColor == 1) adjColor = 3;
-							break;
-						default:
-							break;
-					}
-				}
-				if ((temp < n*n) && (temp + 1) % n != 0) {
-					switch (pos.charAt(temp + 1)) {
-						case 'b':
-							if (adjColor == 0) adjColor = 1;
-							else if (adjColor == 2) adjColor = 3;
-							break;
-						case 'w':
-							if (adjColor == 0) adjColor = 2;
-							else if (adjColor == 1) adjColor = 3;
-							break;
-						default:
-							break;
-					}
-				}
-			}
-
-			if(adjColor == 1) blackTerr += adj.size();
-			else if(adjColor == 2) whiteTerr += adj.size();
-		}
-
-		return blackTerr+"x"+whiteTerr;
-	}
-
-	public static void genAdj(List<Integer> adj, List<Integer> empties)
-	{
-		int current = empties.remove(0);
-		System.out.println("y: "+current);
-		if(!adj.contains(current))
-		{
-			adj.add(current);
-
-			if (empties.contains(current - 7)) {
-
-				empties.add(0, empties.remove(empties.indexOf(current - 7)));
-				genAdj(adj, empties);
-			}
-			if (empties.contains(current + 7)) {
-
-				empties.add(0, empties.remove(empties.indexOf(current + 7)));
-				genAdj(adj, empties);
-			}
-			if ((current + 1 % n != 0) && empties.contains(current + 1)) {
-
-				empties.add(0, empties.remove(empties.indexOf(current + 1)));
-				genAdj(adj, empties);
-			}
-			if ((current - 1 % n != n-1) && empties.contains(current - 1)) {
-
-				empties.add(0, empties.remove(empties.indexOf(current - 1)));
-				genAdj(adj, empties);
-			}
-		}
+		return GameNode.countTerritory(pos);
 	}
 
 	public static int[][] genBoard(String pos)	//TODO Remove.
