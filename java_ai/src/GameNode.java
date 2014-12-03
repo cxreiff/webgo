@@ -16,6 +16,8 @@ public class GameNode
 	private GameNode parent;
 	private ArrayList<GameNode> children;
 
+	private int value;
+
 	public GameNode(int turn, String pos, GameNode parent)
 	{
 		this.turn = turn;
@@ -203,6 +205,30 @@ public class GameNode
 				genAdj(n, adj, empties);
 			}
 		}
+	}
+
+	public GameNode bestChild()
+	{
+		int max = this.getValue();
+		GameNode best = this;
+
+		for (int i = 0; i < children.size(); i++)
+		{
+			int val = children.get(i).getValue();
+
+			if(val > max) { max = val; best = children.get(i); }
+		}
+
+		return best;
+	}
+
+	public String getPos()
+	{
+		return pos;
+	}
+	public int getValue()
+	{
+		return this.value;
 	}
 
 	public int numChildren()
