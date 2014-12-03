@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * COSC 331 - Programming Project - jreiff17
@@ -25,7 +24,7 @@ public class GoAI
 		//TODO Take input from javascript go page.
 
 		//input string representation of game board state.
-		String input = "11x"+"eebeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
+		String input = "00x"+"webeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
 		kolist = new String[6];
 		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb1";
 		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb2";
@@ -50,16 +49,17 @@ public class GoAI
 		n = (int)(Math.sqrt((pos.length())));
 
 
-		//2D matrix representation of board, 0: empty, 1: black, 2: white. TODO Remove.
+		//2D matrix representation of board, 0: empty, 1: black, 2: white.
 		int[][] board = genBoard(pos);
 		printBoard(board);
+		System.out.println();
 
 		System.out.println("\n"+"player "+(turn+1)+"'s turn."+"\n");	//TODO Remove.
 
 		String result = (op == 0) ? nextMove(pos, turn) : evalEnd(pos);
 
 
-		System.out.println(result);
+		System.out.println("R: "+result);
 
 		//TODO Return result to javascript go page.
 	}
@@ -90,16 +90,21 @@ public class GoAI
 			current.evaluate();
 		}
 
+		//TODO Remove.
+		System.out.println("V: "+root.bestChild().getValue());
+		System.out.println("C: " + root.getChildren().get(3).getParent().getChildren().toString());
+		System.out.println("C2: "+root.getChildren().get(3).getChildren().toString());
+
 		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 		return root.bestChild().getPos();
 	}
 
-	public static String evalEnd(String pos)		//Returns an evaluation of the final board position.
+	public static String evalEnd(String pos)	//Returns an evaluation of the final board position.
 	{
-		return GameNode.countTerritory(pos);
+		return new GameNode(turn, pos, kolist, null).countTerritory();
 	}
 
-	public static int[][] genBoard(String pos)	//TODO Remove.
+	public static int[][] genBoard(String pos)	//Generates a matrix representation of the board.
 	{
 		int[][] board = new int[n][n];
 
@@ -126,7 +131,7 @@ public class GoAI
 
 		return board;
 	}
-	public static void printBoard(int[][] board)	//Prints the board matrix, 0:empty, 1:black, 2:white. TODO Remove.
+	public static void printBoard(int[][] board)	//Prints the matrix representation of the board.
 	{
 		for(int i=0; i < board.length; i++)
 		{
