@@ -97,7 +97,6 @@ public class GoAI
 		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 		return root.bestChild().getPos();
 	}
-
 	public static String evalEnd(String pos)	//Returns an evaluation of the final board position.
 	{
 		return new GameNode(turn, pos, kolist, null).countTerritory();

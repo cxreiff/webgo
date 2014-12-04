@@ -422,17 +422,6 @@ public class GameNode
 	{
 		return this.value;
 	}
-
-	public GameNode getParent()
-	{
-		return parent;
-	}
-
-	public ArrayList<GameNode> getChildren()
-	{
-		return children;
-	}
-
 	public String toString()
 	{
 		return this.getPos() + "--" + this.getValue();
