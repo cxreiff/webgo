@@ -24,7 +24,8 @@ public class GoAI
 		//TODO Take input from javascript go page.
 
 		//input string representation of game board state.
-		String input = "00x"+"webeebeeebbbbbbbbewwwewbweeewwbeweebbewewwewewewe";
+		String input = "00x"+"wbwwwwewbwwwwwwbwwwwwwbwwwwwwbwwwwwwebbbbbeeeeeww";
+
 		kolist = new String[6];
 		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb1";
 		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb2";
@@ -49,17 +50,19 @@ public class GoAI
 		n = (int)(Math.sqrt((pos.length())));
 
 
-		//2D matrix representation of board, 0: empty, 1: black, 2: white.
-		int[][] board = genBoard(pos);
-		printBoard(board);
+		//2D matrix representation of input board, 0: empty, 1: black, 2: white.
+		printBoard(genBoard(pos));
 		System.out.println();
 
-		System.out.println("\n"+"player "+(turn+1)+"'s turn."+"\n");	//TODO Remove.
+		System.out.println(((turn == 0)?"black":"white")+" turn"+"\n");
 
 		String result = (op == 0) ? nextMove(pos, turn) : evalEnd(pos);
 
-
 		System.out.println("R: "+result);
+		System.out.println();
+
+		//2D matrix representation of output board, 0: empty, 1: black, 2: white.
+		printBoard(genBoard(result));
 
 		//TODO Return result to javascript go page.
 	}
@@ -90,10 +93,7 @@ public class GoAI
 			current.evaluate();
 		}
 
-		//TODO Remove.
 		System.out.println("V: "+root.bestChild().getValue());
-		System.out.println("C: " + root.getChildren().get(3).getParent().getChildren().toString());
-		System.out.println("C2: "+root.getChildren().get(3).getChildren().toString());
 
 		//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 		return root.bestChild().getPos();

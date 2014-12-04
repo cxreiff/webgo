@@ -77,7 +77,7 @@ public class GameNode
 	{
 		//Add 2 * searchiness to the turn value.
 		//Searchiness is some value representing the depth into the game to randomly play.
-		int searchiness = 40;
+		int searchiness = 49;
 
 		int blackcap = 0;
 		int whitecap = 0;
@@ -122,8 +122,16 @@ public class GameNode
 		}//When turn count reaches 0, break.
 
 		//Evaluate position using endgame evaluation method and running count of captured pieces.
-		int evaluation = 1000 * (Integer.parseInt(descendant.countTerritory().substring(0,1)) + whitecap)
-							- 1000 * (Integer.parseInt(descendant.countTerritory().substring(2)) + blackcap);
+		String territory = descendant.countTerritory();
+		int divider = 0;
+
+		for(int i = 0; i < territory.length(); i++)
+		{
+			if(territory.charAt(i) == 'x') divider = i;
+		}
+
+		int evaluation = 1000 * (Integer.parseInt(descendant.countTerritory().substring(0,divider)) + whitecap)
+							- 1000 * (Integer.parseInt(descendant.countTerritory().substring(divider+1)) + blackcap);
 
 		//Use evaluation to update values of this and each ancestor node.
 		this.update(evaluation);
@@ -138,13 +146,13 @@ public class GameNode
 
 	public String captureWhite(String pos)	//Returns a position string with surrounded white pieces changed to empties.
 	{
-		String result = pos;
+		String result = pos;	//TODO
 
 		return result;
 	}
 	public String captureBlack(String pos)	//Returns a position string with surrounded black pieces changed to empties.
 	{
-		String result = pos;
+		String result = pos;	//TODO
 
 		return result;
 	}
