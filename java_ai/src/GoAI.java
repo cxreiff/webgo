@@ -5,9 +5,22 @@ import java.util.ArrayList;
  *
  * Java AI for Web Go game. Decides computer's moves and analyzes endgame positions.
  *
- * Scoring for endgame positions is decided by the following: any group of adjacent empty spaces
- * adjacent to only board edges and a single stone color adds the number of empty spaces in the
- * group to the score of that color.
+ * Board states are encoded in the form PTxSSSSSS...S, representing the following:
+ *
+ * 		P :	Respresents the type of information being asked for. Is "0" when asking
+ * 			for the next move, and "1" when asking for a count of surrounded territory.
+ *
+ * 		T :	Represents the current turn of the game state. Is "0" when player 1 (black)
+ * 			is next to move, and "1" when player 2 (white) is next to move.
+ *
+ * 		x : Divider character, isn't read.
+ *
+ * 		S : Represents the state of a given tile, can be "e" when empty, "b" when containing
+ * 			a black stone, and "w" when containing a white stone. There are as many S
+ * 			characters as board tiles, and are ordered from the top left to bottom right in
+ * 			left to right, top to bottom order (english reading order).
+ *
+ * 	This class handles http requests from the game running with javascript on an html web page.
  */
 
 public class GoAI

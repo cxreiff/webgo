@@ -5,6 +5,14 @@ import java.util.List;
  * COSC 331 - Programming Project - jreiff17
  *
  * Node representing a game state that can play games to self-evaluate.
+ *
+ * Scoring for endgame positions is decided by the following: any group of adjacent empty spaces
+ * adjacent to only board edges and a single stone color adds the number of empty spaces in the
+ * group to the score of that color.
+ *
+ * Creates new child game states by selecting an empty space to play in, and then confirming that
+ * playing in that space is valid under the rules of Go (you can't play where you will be
+ * immediately captured, and you cannot return the board to a previous state (ko).
  */
 
 public class GameNode
