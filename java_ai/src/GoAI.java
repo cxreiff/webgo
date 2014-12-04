@@ -24,13 +24,13 @@ public class GoAI
 		//TODO Take input from javascript go page.
 
 		//input string representation of game board state.
-		String input = "00x"+"wbwwwwewbwwwwwwbwwwwwwbwwwwwwbwwwwwwebbbbbeeeeeww";
+		String input = "00x"+"bweewwwbwwwwwwbwwwwwwbwwwwwwbwwwwwwbwwwwwwebbbbbb";
 
 		kolist = new String[6];
 		kolist[0] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb1";
 		kolist[1] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb2";
 		kolist[2] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb3";
-		kolist[3] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb4";
+		kolist[3] = "bwebwwwbwwwwwwbwwwwwwbwwwwwwbwwwwwwbwwwwwwebbbbbb";
 		kolist[4] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb5";
 		kolist[5] = "ebebewewbwebewbwebebwwwbeeeeebbebebwbbbwebeeewbb6";
 
@@ -48,7 +48,6 @@ public class GoAI
 
 		//Length of each side of the board.
 		n = (int)(Math.sqrt((pos.length())));
-
 
 		//2D matrix representation of input board, 0: empty, 1: black, 2: white.
 		printBoard(genBoard(pos));
@@ -76,7 +75,7 @@ public class GoAI
 		ArrayList<GameNode> open = new ArrayList<GameNode>();
 		open.add(root);
 
-		int patience = 10000;	//Time limit in ms to calculate each move.
+		int patience = 1000;	//Time limit in ms to calculate each move.
 
 		//Before each loop of MCTS, make sure that the time limit has not been exceeded.
 		while(timer.elapsed() < patience)

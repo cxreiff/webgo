@@ -10,6 +10,7 @@ import java.util.List;
 public class GameNode
 {
 
+	private int n;
 	private int turn;
 	private int value;
 	private String pos;
@@ -21,6 +22,7 @@ public class GameNode
 	{
 		this.turn = turn;
 		this.pos = pos;
+		this.n = (int) Math.sqrt(pos.length());
 		this.kolist = kolist;
 		this.parent = parent;
 		this.children = new ArrayList<GameNode>();
@@ -37,13 +39,20 @@ public class GameNode
 		String childPos;
 		int target;
 
+		List<Integer> empty = new ArrayList<Integer>();
+
+		for(int i = 0; i < pos.length(); i++)
+		{
+			if(pos.charAt(i) == 'e') empty.add(i);
+		}
+
+		int loops = 49;
+
 		if (turn == 0)
 		{
-			int loops = 49;
-
 			do
 			{
-				target = (int)(Math.random() * pos.length());
+				target = empty.get((int)(Math.random() * empty.size()));
 
 				childPos = pos.substring(0, target) + "b" + pos.substring(target + 1);
 
@@ -51,15 +60,13 @@ public class GameNode
 
 				if(--loops < 1) return new GameNode((turn+1) % 2, this.getPos(), kolist, this);
 
-			} while((pos.charAt(target) != 'e') && (captureBlack(childPos).charAt(target) != 'e') && checkKo(childPos));
+			} while((captureBlack(childPos).charAt(target) == 'e') || !checkKo(childPos));
 		}
 		else
 		{
-			int loops = 49;
-
 			do
 			{
-				target = (int)(Math.random() * pos.length());
+				target = empty.get((int)(Math.random() * empty.size()));
 
 				childPos = pos.substring(0, target) + "w" + pos.substring(target + 1);
 
@@ -67,7 +74,7 @@ public class GameNode
 
 				if(--loops < 1) return new GameNode((turn+1) % 2, this.getPos(), kolist, this);
 
-			} while((pos.charAt(target) != 'e') && (captureWhite(childPos).charAt(target) != 'e') && checkKo(childPos));
+			} while((captureWhite(childPos).charAt(target) == 'e') || !checkKo(childPos));
 		}
 
 		return new GameNode((turn + 1) % 2, childPos, advanceKo(kolist), this);
@@ -146,13 +153,84 @@ public class GameNode
 
 	public String captureWhite(String pos)	//Returns a position string with surrounded white pieces changed to empties.
 	{
-		String result = pos;	//TODO
+
+		String result = pos;
+
+		List<Integer> candidates = new ArrayList<Integer>();
+
+		for(int i = 0; i < result.length(); i++)
+		{
+			if(result.charAt(i) == 'w') candidates.add(i);
+		}
+
+		while(candidates.size() > 0)
+		{
+			List<Integer> adj = new ArrayList<Integer>();
+
+			genAdj(n, adj, candidates);
+
+			boolean life = false;
+
+			for(int i = 0; i < adj.size(); i++)
+			{
+				int current = adj.get(i);
+
+				if(current - n > -1 && result.charAt(current - n) == 'e') { life = true; break; }
+				if(current + n < n*n && result.charAt(current + n) == 'e') { life = true; break; }
+				if((current - 1 > -1) && (current - 1) % n != n-1 && result.charAt(current - 1) == 'e') {life = true; break; }
+				if((current + 1) % n != 0 && result.charAt(current + 1) == 'e') {life = true; break; }
+
+			}
+
+			if(!life)
+			{
+				for(int i = 0; i < adj.size(); i++)
+				{
+					result = result.substring(0, adj.get(i)) + "e" + result.substring(adj.get(i)+1);
+				}
+			}
+		}
 
 		return result;
 	}
 	public String captureBlack(String pos)	//Returns a position string with surrounded black pieces changed to empties.
 	{
-		String result = pos;	//TODO
+		String result = pos;
+
+		List<Integer> candidates = new ArrayList<Integer>();
+
+		for(int i = 0; i < result.length(); i++)
+		{
+			if(result.charAt(i) == 'b') candidates.add(i);
+		}
+
+		while(candidates.size() > 0)
+		{
+			List<Integer> adj = new ArrayList<Integer>();
+
+			genAdj(n, adj, candidates);
+
+			boolean life = false;
+
+			for(int i = 0; i < adj.size(); i++)
+			{
+				int current = adj.get(i);
+
+				if(current - n > -1 && result.charAt(current - n) == 'e') { life = true; break; }
+				if(current + n < n*n && result.charAt(current + n) == 'e') { life = true; break; }
+				if(current - 1 > -1 && (current - 1) % n != n-1 && result.charAt(current - 1) == 'e') {life = true; break; }
+				if((current + 1) % n != 0 && result.charAt(current + 1) == 'e') {life = true; break; }
+
+			}
+
+			if(!life)
+			{
+				for(int i = 0; i < adj.size(); i++)
+				{
+					result = result.substring(0, adj.get(i)) + "e" + result.substring(adj.get(i)+1);
+				}
+			}
+		}
 
 		return result;
 	}
@@ -178,7 +256,6 @@ public class GameNode
 
 	public String countTerritory()		//Returns an evaluation of the final board position.
 	{
-		int n = (int) Math.sqrt(pos.length());
 
 		int blackTerr = 0;
 		int whiteTerr = 0;
