@@ -57,7 +57,7 @@ public class GoAI
 			InetSocketAddress addr = new InetSocketAddress(port);
 			HttpServer server = HttpServer.create(addr, 1);
 
-			server.createContext("/webgo/go.html", new GoHandler());
+			server.createContext("/go.html", new GoHandler());
 
 			server.start();
 		}
