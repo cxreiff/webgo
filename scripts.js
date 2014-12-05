@@ -27,7 +27,7 @@ $(document).ready(function f() {
 	var passed = false;
 	f.turn = true;
 
-	$(".pass").click(function () {
+	$("#pass").click(function () {
 
 		if (passed) endgame();
 		else {
@@ -45,6 +45,15 @@ $(document).ready(function f() {
 			passed = true;
 			f.turn = !f.turn;
 		}
+	});
+
+	$("#suggest").click(function () {
+
+		$.getJSON("http://127.0.0.1:8080/go.html/?"+"00x"+boardString()+"x"
+			+boardString()+boardString()+boardString()+boardString()+boardString()+boardString(), function () {
+
+			alert();
+		});
 	});
 
 	$("div.tile").click(function () {
@@ -92,7 +101,7 @@ $(document).ready(function f() {
 				else {$(this).removeClass("white");}
 			}
 
-			$(".score").html("Captures: "+blackCap.toString()+" - "+whiteCap.toString());
+			$("#score").html("Captures: "+blackCap.toString()+" - "+whiteCap.toString());
 		}
 	});
 });

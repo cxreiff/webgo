@@ -126,7 +126,15 @@ div.point {
 	float: left;
 }
 
-p.pass {
+p#pass {
+	margin-left: 20%;
+	margin-right: 20%;
+	border-width: 1px;
+	border-style: dotted;
+	border-color: black;
+}
+p#suggest {
+
 	margin-left: 20%;
 	margin-right: 20%;
 	border-width: 1px;
