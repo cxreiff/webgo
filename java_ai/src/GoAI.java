@@ -3,6 +3,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
@@ -64,6 +65,7 @@ public class GoAI
 		catch(IOException ex)
 		{
 			ex.printStackTrace();
+			System.err.println("Could not start server");
 		}
 	}
 
@@ -79,6 +81,9 @@ public class GoAI
 		@Override
 		public void handle(HttpExchange ex) throws IOException
 		{
+
+			System.out.println("========");
+			System.out.println();
 
 			//input string representation of game board state.
 			String input = ex.getRequestURI().getQuery();
@@ -122,7 +127,13 @@ public class GoAI
 			//2D matrix representation of output board, 0: empty, 1: black, 2: white.
 			printBoard(genBoard(result));
 
-			//TODO Return result to javascript go page.
+			String response = "{" + "\"result\":\"" + result + "\", " + "\"state\":\"" + pos + "\" }";
+
+			ex.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+			byte[] responseBytes = response.getBytes();
+			ex.sendResponseHeaders(HttpURLConnection.HTTP_OK, responseBytes.length);
+			ex.getResponseBody().write(responseBytes);
+			ex.close();
 		}
 
 		public static String nextMove(String pos, int turn)		//Returns an intelligent next move for the player
