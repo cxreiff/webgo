@@ -117,15 +117,24 @@ public class GoAI
 			timer = new Timer();
 
 			//2D matrix representation of input board, 0: empty, 1: black, 2: white.
-			printBoard(genBoard(pos));
-			System.out.println();
+			if(op == 1)
+			{
+				printBoard(genBoard(pos));
+				System.out.println();
+			}
 
-			System.out.println(((turn == 0)?"black":"white")+" turn"+"\n");
+			if(op == 1) System.out.println(((turn == 0)?"black":"white")+" turn"+"\n");
 
 			String result = (op == 0) ? nextMove(pos, turn) : evalEnd(pos);
 
 			//2D matrix representation of output board, 0: empty, 1: black, 2: white.
-			printBoard(genBoard(result));
+
+			if(op == 0)
+			{
+				System.out.println("~~~~~~~");
+				printBoard(genBoard(result));
+				System.out.println("~~~~~~~");
+			}
 
 			String response = "{" + "\"result\":\"" + result + "\", " + "\"state\":\"" + pos + "\" }";
 
@@ -145,7 +154,7 @@ public class GoAI
 			ArrayList<GameNode> open = new ArrayList<GameNode>();
 			open.add(root);
 
-			int patience = 1000;	//Time limit in ms to calculate each move.
+			int patience = 2000;	//Time limit in ms to calculate each move.
 
 			//Before each loop of MCTS, make sure that the time limit has not been exceeded.
 			while(timer.elapsed() < patience)
@@ -167,7 +176,7 @@ public class GoAI
 		}
 		public static String evalEnd(String pos)	//Returns an evaluation of the final board position.
 		{
-			return new GameNode(turn, pos, kolist, null).countTerritory();
+			return (new GameNode(turn, pos, kolist, null).countTerritory());
 		}
 
 		public static int[][] genBoard(String pos)	//Generates a matrix representation of the board.
