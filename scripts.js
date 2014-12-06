@@ -54,6 +54,8 @@ $(document).ready(function f() {
 
 	$("#suggest").click(function () {
 
+		$("#suggest").html(". . .");
+
 		var whichTurn = (f.turn ? "0" : "1");
 
 		$.getJSON("http://127.0.0.1:8080/go.html/?"+"0"+whichTurn+"x"+boardString()+"x"
@@ -113,6 +115,11 @@ $(document).ready(function f() {
 
 			$("#score").html("Captures: "+blackCap.toString()+" - "+whiteCap.toString());
 		}
+
+		var whichTurn = (f.turn ? "0" : "1");
+
+		$.getJSON("http://127.0.0.1:8080/go.html/?"+"1"+whichTurn+"x"+boardString()+"x"
+			+posits[0]+posits[1]+posits[2]+posits[3]+posits[4]+posits[5], showTerr);
 	});
 });
 
@@ -270,6 +277,8 @@ function connect(current, connected) {	//Generates a list of adjacent tiles with
 
 function showSuggest(suggestion) {
 
+	$("#suggest").html("SUGGEST");
+
 	var current = boardString();
 
 	if(boardString() == suggestion.state) {
@@ -289,6 +298,18 @@ function showSuggest(suggestion) {
 			}
 		}
 	}
+}
+
+function showTerr(report) {
+
+	var target = null;
+
+	for(i = 0; i < report.result.length; i++) {
+
+		if(report.result.charAt(i) == 'x') var target = i;
+	}
+
+	$("#terr").html("Territory: "+report.result.substring(0,target)+" - "+report.result.slice(target+1));
 }
 
 function boardString(except) {
