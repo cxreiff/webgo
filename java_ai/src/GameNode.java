@@ -432,6 +432,6 @@ public class GameNode
 	}
 	public String toString()
 	{
-		return this.getPos() + "--" + this.getValue();
+		return this.getPos() + " : " + this.getValue();
 	}
 }

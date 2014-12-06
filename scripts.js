@@ -11,7 +11,12 @@
 var blackCap = 0;
 var whiteCap = 0;
 var finished = false;
-var posits = ["","","","","",""];
+var posits = ["eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"];
 
 $(document).ready(function f() {
 
@@ -49,14 +54,19 @@ $(document).ready(function f() {
 
 	$("#suggest").click(function () {
 
-		$.getJSON("http://127.0.0.1:8080/go.html/?"+"00x"+boardString()+"x"
-			+boardString()+boardString()+boardString()+boardString()+boardString()+boardString(), function () {
+		var whichTurn = (f.turn ? "0" : "1");
 
-			alert();
-		});
+		$.getJSON("http://127.0.0.1:8080/go.html/?"+"0"+whichTurn+"x"+boardString()+"x"
+			+posits[0]+posits[1]+posits[2]+posits[3]+posits[4]+posits[5], showSuggest);
 	});
 
 	$("div.tile").click(function () {
+
+		$("div.tile").each(function () {
+
+			$(this).removeClass("outlineb");
+			$(this).removeClass("outlinew");
+		});
 
 		if (finished) return;
 
@@ -194,6 +204,7 @@ function captureBlack(recent) {	//Tests groups of stones for liberties and condi
 				whiteCap++;
 				$("#"+connected[j]).removeClass("black");
 				blackcheck = blackcheck.not("#"+connected[j]);
+
 			} else {
 
 				return 0;
@@ -253,6 +264,29 @@ function connect(current, connected) {	//Generates a list of adjacent tiles with
 		if (($.inArray("t"+right, connected) == -1) && (parseInt(right) % 7 != 1) && $("#t"+right).hasClass("white")) {
 
 			connect($("#t"+right),connected);
+		}
+	}
+}
+
+function showSuggest(suggestion) {
+
+	var current = boardString();
+
+	if(boardString() == suggestion.state) {
+
+		for(i = 0; i < current.length; i++)
+		{
+			if (current.charAt(i) == 'e') {
+
+				if (suggestion.result.charAt(i) == 'b') {
+
+					$("#t"+(i+1).toString()).addClass("outlineb");
+				}
+				if (suggestion.result.charAt(i) == 'w') {
+
+					$("#t"+(i+1).toString()).addClass("outlinew");
+				}
+			}
 		}
 	}
 }

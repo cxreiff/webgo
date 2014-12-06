@@ -65,8 +65,8 @@ div.lowerbar {
 }
 div.tile {
 	background-size: 100%;
-	width: 14.285714286%;
-	height: 14.285714286%;
+	width: 14%;
+	height: 14%;
 	margin: 0 0 0 0;
 }
 
@@ -80,26 +80,40 @@ div.marker {
 div.white {
 	content: url('img/white.png');
 }
-
 div.black {
 	content: url('img/black.png');
+}
+div.outlineb {
+	content: url('img/outline_b.png');
+}
+div.outlinew {
+	content: url('img/outline_w.png');
 }
 
 div.top {
 	background-image:url("img/top.png");
 	float: left;
+
+	margin-top: 1%;
 }
 div.topleft {
 	background-image:url('img/topleft.png');
 	float: left;
+
+	margin-top: 1%;
+	margin-left: 1%;
 }
 div.topright {
 	background-image:url('img/topright.png');
 	float: left;
+
+	margin-top: 1%;
 }
 div.left {
 	background-image:url('img/left.png');
 	float: left;
+
+	margin-left: 1%;
 }
 div.right {
 	background-image:url('img/right.png');
@@ -112,6 +126,8 @@ div.bottom {
 div.bottomleft {
 	background-image:url('img/bottomleft.png');
 	float: left;
+
+	margin-left: 1%;
 }
 div.bottomright {
 	background-image:url('img/bottomright.png');
