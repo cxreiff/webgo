@@ -275,7 +275,7 @@ function connect(current, connected) {	//Generates a list of adjacent tiles with
 	}
 }
 
-function showSuggest(suggestion) {
+function showSuggest(suggestion) {	//Displays suggested move based on results from the query to AI.
 
 	$("#suggest").html("SUGGEST");
 
@@ -300,7 +300,7 @@ function showSuggest(suggestion) {
 	}
 }
 
-function showTerr(report) {
+function showTerr(report) {		//Updates the territory values displayed based on results from the query to AI.
 
 	var target = null;
 
@@ -312,7 +312,7 @@ function showTerr(report) {
 	$("#terr").html("Territory: "+report.result.substring(0,target)+" - "+report.result.slice(target+1));
 }
 
-function boardString(except) {
+function boardString(except) {		//Creates String representation of the state of the board.
 
 	var tiles = $(".tile");
 	var result = "";
@@ -333,7 +333,7 @@ function boardString(except) {
 	return result;
 }
 
-function endgame() {
+function endgame() {	//When both players pass, one immediately after the other, the game finishes.
 
 	$(".pass").html("FINISHED");
 	finished = true;
