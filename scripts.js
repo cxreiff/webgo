@@ -52,7 +52,7 @@ $(document).ready(function f() {
 		}
 	});
 
-	$("#suggest").click(function () {
+	$("#suggest").click(function () {	//Queries the AI to get a move suggestion.
 
 		$("#suggest").html(". . .");
 
