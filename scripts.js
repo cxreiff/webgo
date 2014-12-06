@@ -343,5 +343,4 @@ function endgame() {
 
 	result = boardString();
 
-	//Add code for evaluating endgame position within the AI web service.
 }

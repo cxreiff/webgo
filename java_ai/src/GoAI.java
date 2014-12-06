@@ -34,6 +34,7 @@ import java.util.ArrayList;
  *
  * 	This class handles http requests from the game running with javascript on an html web page.
  */
+
 public class GoAI
 {
 	public static void main(String[] args)
