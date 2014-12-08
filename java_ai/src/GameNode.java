@@ -152,8 +152,8 @@ public class GameNode
 			if(territory.charAt(i) == 'x') divider = i;
 		}
 
-		int evaluation = 1000 * (Integer.parseInt(descendant.countTerritory().substring(0,divider)) + whitecap)
-							- 1000 * (Integer.parseInt(descendant.countTerritory().substring(divider+1)) + blackcap);
+		int evaluation = 1000 * (Integer.parseInt(descendant.countTerritory().substring(0,divider)) + whitecap * 100)
+							- 1000 * (Integer.parseInt(descendant.countTerritory().substring(divider+1)) + blackcap * 100);
 
 		//Use evaluation to update values of this and each ancestor node.
 		this.update(evaluation);
