@@ -155,22 +155,33 @@ public class GoAI
 			ArrayList<GameNode> open = new ArrayList<GameNode>();
 			open.add(root);
 
-			int patience = 2000;	//Time limit in ms to calculate each move.
+			int patience = 3000;	//Time limit in ms to calculate each move.
+			int count = 0;			//Running count of loops.
 
 			//Before each loop of MCTS, make sure that the time limit has not been exceeded.
 			while(timer.elapsed() < patience)
 			{
+				int toExpand = 0;
+
+				for (int i = 0; i < open.size(); i++)
+				{
+					if(open.get(i).UCT(count) > open.get(toExpand).UCT(count)) toExpand = i;
+				}
 
 				//Optimally (using UCT) choose a node in the game tree.
 				//Expand the chosen node by picking a random child state.
-				GameNode current = open.get((int) (Math.random() * open.size())).expand(); //TODO Change from random to UCT.
+				GameNode current = open.get(toExpand).expand();
 
 				//Add new node to pool of nodes that can be expanded.
 				open.add(current);
 
 				//Use evaluated random play from that new node to evaluate it.
 				current.evaluate();
+
+				count++;
 			}
+
+			System.out.println("expanded: " + count);
 
 			//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 			return root.bestChild().getPos();
