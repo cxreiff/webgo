@@ -23,8 +23,11 @@ public class GameNode
 	private int value;
 	private String pos;
 	private String[] kolist;
+
 	private GameNode parent;
 	private ArrayList<GameNode> children;
+
+	private int visits;
 
 	public GameNode(int turn, String pos, String[] kolist, GameNode parent)
 	{
@@ -34,12 +37,16 @@ public class GameNode
 		this.kolist = kolist;
 		this.parent = parent;
 		this.children = new ArrayList<GameNode>();
+
+		this.visits = 1;
 	}
 
 	public GameNode expand()	//Generates a child game node, adds it to list of children, and returns it.
 	{
 		GameNode result = newChild();
 		children.add(result);
+		visits++;
+
 		return result;
 	}
 	public GameNode newChild()	//Returns a new node representing a game position reachable in one move from this one.
@@ -416,6 +423,11 @@ public class GameNode
 		}
 
 		return best;
+	}
+
+	public double UCT(int t)
+	{
+		return value + Math.sqrt((2 * Math.log(t))/visits);
 	}
 
 	public int getTurn()
