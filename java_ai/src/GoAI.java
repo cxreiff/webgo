@@ -183,6 +183,16 @@ public class GoAI
 
 			System.out.println("expanded: " + count);
 
+			//If all moves worsen situation, return input position (pass).
+			if(turn == 0)
+			{
+				if(root.bestChild().getValue() < root.getValue() * (0.8)) return pos;
+			}
+			else
+			{
+				if(root.bestChild().getValue() > root.getValue() * (0.8)) return pos;
+			}
+
 			//When all node adjustments have been made and time has run out, choose the depth:1 option with the best value.
 			return root.bestChild().getPos();
 		}

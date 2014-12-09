@@ -11,6 +11,7 @@
 var blackCap = 0;
 var whiteCap = 0;
 var finished = false;
+var passed = false;
 var posits = ["eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
 				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
 				"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
@@ -28,8 +29,6 @@ $(document).ready(function f() {
 		});
 	});
 
-
-	var passed = false;
 	f.turn = true;
 
 	$("#pass").click(function () {
@@ -335,12 +334,15 @@ function boardString(except) {		//Creates String representation of the state of 
 
 function endgame() {	//When both players pass, one immediately after the other, the game finishes.
 
-	$(".pass").html("FINISHED");
 	finished = true;
 
-	var blackTer = 0;
-	var whiteTer = 0;
-
-	result = boardString();
+	$("#pass").html("FINISHED");
+	$("#turns").html("Score:");
+	$(".marker").removeClass("black white");
+	$("#total").css("margin-right","5%");
+	$("#total").html(((parseInt($("#terr").html().substring(11, $("#terr").html().indexOf(' ', 11)))
+		- parseInt($("#score").html().slice(14))) + "&nbsp<span style=\"font-size: 1.5em\"> | </span>&nbsp"
+			+ (parseInt($("#terr").html().slice(15))
+				- parseInt($("#score").html().substring(10, $("#score").html().indexOf(' ', 10))))));
 
 }
