@@ -155,7 +155,7 @@ public class GoAI
 			ArrayList<GameNode> open = new ArrayList<GameNode>();
 			open.add(root);
 
-			int patience = 3000;	//Time limit in ms to calculate each move.
+			int patience = 60000;	//Time limit in ms to calculate each move.
 			int count = 0;			//Running count of loops.
 
 			//Before each loop of MCTS, make sure that the time limit has not been exceeded.
