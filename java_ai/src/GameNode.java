@@ -233,7 +233,7 @@ public class GameNode
 
 				if(current - n > -1 && result.charAt(current - n) == 'e') { life = true; break; }
 				if(current + n < n*n && result.charAt(current + n) == 'e') { life = true; break; }
-				if(current - 1 > -1 && (current - 1) % n != n-1 && result.charAt(current - 1) == 'e') {life = true; break; }
+				if((current - 1 > -1) && (current - 1) % n != n-1 && result.charAt(current - 1) == 'e') {life = true; break; }
 				if((current + 1) % n != 0 && result.charAt(current + 1) == 'e') {life = true; break; }
 
 			}
@@ -382,12 +382,12 @@ public class GameNode
 				candidates.add(0, candidates.remove(candidates.indexOf(current + 7)));
 				genAdj(n, adj, candidates);
 			}
-			if ((current + 1 % n != 0) && candidates.contains(current + 1)) {
+			if (((current + 1) % n != 0) && candidates.contains(current + 1)) {
 
 				candidates.add(0, candidates.remove(candidates.indexOf(current + 1)));
 				genAdj(n, adj, candidates);
 			}
-			if ((current - 1 % n != n-1) && candidates.contains(current - 1)) {
+			if (((current - 1) % n != n-1) && candidates.contains(current - 1)) {
 
 				candidates.add(0, candidates.remove(candidates.indexOf(current - 1)));
 				genAdj(n, adj, candidates);
