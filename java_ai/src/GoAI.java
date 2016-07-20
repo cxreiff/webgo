@@ -49,7 +49,7 @@ public class GoAI
 			}
 			catch(NumberFormatException ex)
 			{
-				System.err.println("USAGE: java YahtzeeService [port]");
+				System.err.println("USAGE: java GoAI [port]");
 				System.exit(1);
 			}
 		}
