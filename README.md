@@ -12,6 +12,8 @@ suggested location with a black or white circle outline, as well as
 updating the running count of each player's territory. For AI to
 function, GoAI.java and the files it depends on must be compiled and
 run locally so that the page can access it at 127.0.0.1:8080.
+Otherwise, territory will remain at zero, and suggestions will not
+be available.
 
 Published at jaxuru.me/webgo/go.html via Github Pages.
 
