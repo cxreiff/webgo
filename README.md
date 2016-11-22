@@ -15,6 +15,6 @@ run locally so that the page can access it at 127.0.0.1:8080.
 Otherwise, territory will remain at zero, and suggestions will not
 be available.
 
-Published at jaxuru.me/webgo/go.html via Github Pages.
+Published at jaxuru.me/webgo via Github Pages.
 
 Developed for COSC331 - Games at Amherst College.
